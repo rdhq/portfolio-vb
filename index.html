@@ -585,8 +585,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ============================================ */
 .motions-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
 }
 .motion-card {
   position: relative;
@@ -645,15 +645,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin-top: 4px;
 }
 
-/* Featured motion (larger) */
-.motion-card.featured {
-  grid-column: span 2;
-  grid-row: span 2;
-  aspect-ratio: auto;
-}
-.motion-card.featured .motion-play .play-btn {
-  width: 80px; height: 80px;
-}
+/* Featured removed - all cards same size */
 
 /* Video theater (fullscreen player) */
 .video-theater {
@@ -697,12 +689,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .video-theater .theater-nav.next { right: 24px; }
 
 @media (max-width: 1199px) {
-  .motions-grid { grid-template-columns: repeat(2, 1fr); }
-  .motion-card.featured { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; }
+  .motions-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 809px) {
   .motions-grid { grid-template-columns: repeat(2, 1fr); }
-  .motion-card.featured { grid-column: span 2; }
   .motion-card .motion-play .play-btn { width: 48px; height: 48px; }
 }
 
@@ -1000,7 +990,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     </div>
 
     <div class="motions-grid stagger-in">
-      <div class="motion-card featured" data-video="assets/videos/web/john-x-malmo.mp4" data-title="John x Malmo">
+      <div class="motion-card" data-video="assets/videos/web/john-x-malmo.mp4" data-title="John x Malmo">
         <video src="assets/videos/web/john-x-malmo.mp4" muted loop playsinline preload="metadata"></video>
         <div class="motion-play"><div class="play-btn"><svg width="24" height="24" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
         <div class="motion-info"><p class="motion-title">John x Malmo</p><p class="motion-tag">Motion Design</p></div>
