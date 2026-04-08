@@ -87,7 +87,7 @@
    RESET & BASE
    ============================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
 body {
   font-family: var(--font-secondary);
   font-weight: 400;
@@ -1123,6 +1123,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 <!-- ===================================================================
      JAVASCRIPT
      =================================================================== -->
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 <script>
 (function() {
   'use strict';
@@ -1337,12 +1338,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     if (e.key === 'ArrowRight') navigateLightbox(1);
   });
 
-  // Smooth scroll
+  // Smooth scroll with Lenis
+  const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  // Anchor links
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const t = document.querySelector(link.getAttribute('href'));
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (t) lenis.scrollTo(t);
     });
   });
 
