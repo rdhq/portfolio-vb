@@ -1,0 +1,3692 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased h-full" style="scroll-behavior:smooth;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Black & White</title>
+<meta name="description" content="A comprehensive black & white design system combining creative portfolio aesthetics with elegant motion design.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   CSS CUSTOM PROPERTIES / DESIGN TOKENS
+   ============================================ */
+:root {
+  /* --- Primary Palette --- */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-dark: #0E0F11;
+  --color-dark-secondary: #111111;
+  --color-dark-tertiary: #15171B;
+  --color-dark-card: #1a1a1a;
+  --color-gray-900: #1e1e1e;
+  --color-gray-800: #29292b;
+  --color-gray-700: #333333;
+  --color-gray-600: #52525B;
+  --color-gray-500: #7f7f80;
+  --color-gray-400: #999999;
+  --color-gray-300: #A1A1A6;
+  --color-gray-200: #bbbbbb;
+  --color-gray-100: #d1d1d1;
+  --color-gray-50: #eaeaea;
+  --color-light: #f7f7f7;
+  --color-accent: #d1e1e8;
+
+  /* --- Opacity Variants --- */
+  --white-85: #ffffffd9;
+  --white-50: #ffffff80;
+  --white-30: #ffffff4d;
+  --white-20: #ffffff33;
+  --white-16: #ffffff29;
+  --white-10: #ffffff1a;
+  --white-5: #ffffff0d;
+  --black-85: #000000d9;
+  --black-50: #00000080;
+  --black-30: #0000004d;
+  --black-20: #00000033;
+  --black-16: #00000029;
+  --black-10: #0000001a;
+  --black-5: #0000000d;
+
+  /* --- Typography --- */
+  --font-primary: 'Bricolage Grotesque', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-secondary: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Space Grotesk', 'SF Mono', 'Fira Code', monospace;
+
+  /* --- Spacing --- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 100px;
+  --space-4xl: 144px;
+
+  /* --- Border Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+
+  /* --- Shadows --- */
+  --shadow-subtle: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1), 0 1px 0 rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.2);
+  --shadow-glow-white: 0 0 20px rgba(255,255,255,0.1), 0 0 60px rgba(255,255,255,0.05);
+  --shadow-glow-dark: 0 0 20px rgba(0,0,0,0.3), 0 0 60px rgba(0,0,0,0.1);
+  --shadow-inset: inset 0 0 0 1px rgba(255,255,255,0.1);
+
+  /* --- Transitions --- */
+  --ease-out: cubic-bezier(0.44, 0, 0.34, 0.98);
+  --ease-smooth: cubic-bezier(0.44, 0, 0.56, 1);
+  --ease-bounce: cubic-bezier(0.76, 0.02, 0.13, 1.01);
+  --duration-fast: 0.2s;
+  --duration-normal: 0.4s;
+  --duration-slow: 0.8s;
+
+  /* --- Z-Index --- */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 1000;
+  --z-tooltip: 1500;
+  --z-max: 2147480000;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  font-family: var(--font-secondary);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  overflow-x: hidden;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+ul, ol { list-style: none; }
+
+/* Selection */
+::selection { background: var(--color-black); color: var(--color-white); }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-light); }
+::-webkit-scrollbar-thumb { background: var(--color-gray-400); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gray-700); }
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.container { max-width: 1440px; margin: 0 auto; padding: 0 var(--space-lg); }
+.section-padding { padding: var(--space-4xl) 0; }
+.text-center { text-align: center; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+.relative { position: relative; }
+.overflow-hidden { overflow: hidden; }
+
+/* ============================================
+   BACKGROUND ANIMATIONS
+   ============================================ */
+
+/* Floating orbs for section backgrounds */
+.bg-orbs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-orbs .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.07;
+  animation: floatOrb 20s ease-in-out infinite;
+}
+.bg-orbs .orb:nth-child(1) {
+  width: 600px; height: 600px;
+  background: var(--color-gray-400);
+  top: -200px; left: -100px;
+  animation-delay: 0s;
+}
+.bg-orbs .orb:nth-child(2) {
+  width: 500px; height: 500px;
+  background: var(--color-gray-300);
+  bottom: -150px; right: -100px;
+  animation-delay: -7s;
+  animation-duration: 25s;
+}
+.bg-orbs .orb:nth-child(3) {
+  width: 400px; height: 400px;
+  background: var(--color-gray-500);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -14s;
+  animation-duration: 30s;
+}
+
+/* Dark section orbs */
+.bg-orbs-dark .orb {
+  opacity: 0.12;
+}
+.bg-orbs-dark .orb:nth-child(1) { background: var(--color-gray-600); }
+.bg-orbs-dark .orb:nth-child(2) { background: var(--color-gray-700); }
+.bg-orbs-dark .orb:nth-child(3) { background: var(--color-accent); opacity: 0.06; }
+
+/* Grid pattern overlay */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-grid-dark {
+  background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+}
+
+/* Noise texture overlay */
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Gradient line dividers */
+.gradient-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--black-16), transparent);
+  border: none;
+}
+.gradient-divider-light {
+  background: linear-gradient(90deg, transparent, var(--white-20), transparent);
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+/* Float animation for orbs */
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -40px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(40px, 10px) scale(1.02); }
+}
+
+/* Fade in up */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade in down */
+@keyframes fadeInDown {
+  0% { opacity: 0; transform: translateY(-30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Scale in */
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Blur in */
+@keyframes blurIn {
+  0% { opacity: 0; filter: blur(12px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+
+/* Slide up */
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero BG zoom */
+@keyframes heroZoom {
+  0% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Marquee scroll */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.05); }
+  50% { box-shadow: 0 0 40px rgba(255,255,255,0.15), 0 0 80px rgba(255,255,255,0.05); }
+}
+
+/* Spin */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Letter reveal */
+@keyframes letterReveal {
+  0% { opacity: 0; transform: translateY(20px) rotateX(-40deg); }
+  100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+
+/* Shimmer */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+/* Float gentle */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Border gradient rotate */
+@keyframes borderRotate {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+/* Ping */
+@keyframes ping {
+  0% { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+/* Typing */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Gradient shift */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Width expand */
+@keyframes expandWidth {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+/* Rotate 3D */
+@keyframes rotate3D {
+  0% { transform: perspective(1000px) rotateY(0deg); }
+  100% { transform: perspective(1000px) rotateY(360deg); }
+}
+
+/* Stagger children entrance */
+.stagger-in > * {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.stagger-in.is-visible > * {
+  animation: slideUp 0.6s var(--ease-out) forwards;
+}
+.stagger-in.is-visible > *:nth-child(1) { animation-delay: 0s; }
+.stagger-in.is-visible > *:nth-child(2) { animation-delay: 0.08s; }
+.stagger-in.is-visible > *:nth-child(3) { animation-delay: 0.16s; }
+.stagger-in.is-visible > *:nth-child(4) { animation-delay: 0.24s; }
+.stagger-in.is-visible > *:nth-child(5) { animation-delay: 0.32s; }
+.stagger-in.is-visible > *:nth-child(6) { animation-delay: 0.40s; }
+.stagger-in.is-visible > *:nth-child(7) { animation-delay: 0.48s; }
+.stagger-in.is-visible > *:nth-child(8) { animation-delay: 0.56s; }
+.stagger-in.is-visible > *:nth-child(9) { animation-delay: 0.64s; }
+.stagger-in.is-visible > *:nth-child(10) { animation-delay: 0.72s; }
+
+/* Scroll reveal classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.reveal-blur {
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.8s var(--ease-out), filter 0.8s var(--ease-out);
+}
+.reveal-blur.is-visible {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* ============================================
+   1. HERO SECTION
+   ============================================ */
+.hero-sticky-wrapper {
+  position: relative;
+  height: 200vh; /* extra scroll room for the diagonal reveal */
+  z-index: 1;
+}
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 700px;
+  background: var(--color-dark);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+/* Hero background image with zoom */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  animation: heroZoom 1.5s var(--ease-smooth) forwards;
+  transform: scale(1.15);
+  opacity: 0.4;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.3) 0%,
+    rgba(0,0,0,0.1) 40%,
+    rgba(0,0,0,0.5) 100%
+  );
+}
+
+/* Hero particle canvas */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Hero nav */
+.hero-nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px var(--space-lg);
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(-30px);
+  animation: fadeInDown 0.6s var(--ease-out) 0.3s forwards;
+}
+.hero-nav-logo {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--color-white);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-nav-logo .logo-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-white);
+  border-radius: 50%;
+  position: relative;
+}
+.hero-nav-logo .logo-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--white-30);
+  animation: ping 2s ease-out infinite;
+}
+.hero-nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+.hero-nav-links a {
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--white-50);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color var(--duration-normal) var(--ease-smooth);
+  position: relative;
+  padding-bottom: 2px;
+}
+.hero-nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-white);
+  transition: width var(--duration-normal) var(--ease-out);
+}
+.hero-nav-links a:hover { color: var(--color-white); }
+.hero-nav-links a:hover::after { width: 100%; }
+.hero-nav-links .nav-index {
+  color: var(--white-30);
+  margin-right: 4px;
+  font-size: 10px;
+}
+
+/* Hero content */
+.hero-content {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--space-lg);
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Transparent lettering - main effect */
+.hero-title {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -4px;
+  margin-bottom: var(--space-lg);
+}
+.hero-title .line {
+  display: block;
+  overflow: hidden;
+}
+.hero-title .line-inner {
+  display: block;
+  opacity: 0;
+  transform: translateY(100%);
+  animation: fadeInUp 0.8s var(--ease-bounce) forwards;
+}
+.hero-title .line:nth-child(1) .line-inner { animation-delay: 0.4s; }
+.hero-title .line:nth-child(2) .line-inner { animation-delay: 0.6s; }
+.hero-title .line:nth-child(3) .line-inner { animation-delay: 0.8s; }
+
+/* Transparent text effect */
+.text-transparent-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-white);
+  text-stroke: 1.5px var(--color-white);
+}
+.text-transparent-stroke-dark {
+  -webkit-text-stroke: 1.5px var(--color-black);
+  text-stroke: 1.5px var(--color-black);
+  color: transparent;
+}
+/* Filled text */
+.text-fill-white { color: var(--color-white); -webkit-text-stroke: 0; }
+/* Ghosted text */
+.text-ghost { color: var(--white-50); }
+.text-ghost-dark { color: var(--black-50); }
+
+/* Hero subtitle */
+.hero-subtitle {
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white-50);
+  letter-spacing: -0.3px;
+  line-height: 1.6;
+  max-width: 420px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s var(--ease-out) 1s forwards;
+}
+
+/* Hero CTA */
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  opacity: 0;
+  animation: fadeIn 0.6s var(--ease-out) 1.2s forwards;
+}
+
+/* Hero bottom bar */
+.hero-bottom {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hero-bottom-item {
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: -0.3px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.5s var(--ease-bounce) forwards;
+}
+.hero-bottom-item:nth-child(1) { animation-delay: 0.9s; }
+.hero-bottom-item:nth-child(2) { animation-delay: 1.1s; }
+.hero-bottom-item:nth-child(3) { animation-delay: 1.3s; }
+.hero-bottom-item:nth-child(4) { animation-delay: 1.5s; }
+.hero-bottom-item .index { color: var(--white-30); margin-right: 6px; }
+
+/* Hero scroll indicator */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeIn 0.6s var(--ease-out) 1.8s forwards;
+}
+.hero-scroll-indicator span {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--white-30);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--white-50), transparent);
+  animation: floatGentle 2s ease-in-out infinite;
+}
+
+/* Hero glow effect */
+.hero-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--white-10) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 3;
+  transition: transform 0.3s ease-out;
+  filter: blur(40px);
+}
+
+/* ============================================
+   DIAGONAL OVERLAP / TRANSITION
+   ============================================ */
+.diagonal-reveal {
+  position: relative;
+  z-index: 10;
+  margin-top: -100vh;
+  pointer-events: none;
+}
+.diagonal-reveal-inner {
+  position: relative;
+  pointer-events: auto;
+  background: var(--color-white);
+  /* Start with a subtle diagonal clip — JS will animate this */
+  clip-path: polygon(0 8%, 100% 0%, 100% 100%, 0% 100%);
+  transition: clip-path 0.05s linear;
+}
+/* Noise grain on the diagonal edge area */
+.diagonal-reveal-inner::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), var(--color-white));
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Legacy overlap for fallback */
+.overlap-section {
+  position: relative;
+  height: 120px;
+  margin-top: -60px;
+  z-index: 10;
+  overflow: hidden;
+}
+.overlap-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, var(--color-white));
+  border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
+}
+
+/* ============================================
+   SECTION BASE STYLES
+   ============================================ */
+.section {
+  position: relative;
+  z-index: 5;
+  padding: var(--space-4xl) 0;
+}
+.section-dark {
+  background: var(--color-dark);
+  color: var(--color-white);
+}
+.section-light {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+.section-alt {
+  background: var(--color-light);
+  color: var(--color-black);
+}
+
+.section-header {
+  margin-bottom: var(--space-3xl);
+}
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--black-50);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-dark .section-label { color: var(--white-50); }
+.section-label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: currentColor;
+}
+.section-title {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: clamp(48px, 8vw, 120px);
+  line-height: 0.95;
+  letter-spacing: -3px;
+}
+
+/* ============================================
+   MARQUEE / TICKER
+   ============================================ */
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  padding: var(--space-xl) 0;
+}
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 25s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: clamp(60px, 12vw, 180px);
+  line-height: 1;
+  letter-spacing: -6px;
+  padding: 0 var(--space-xl);
+  color: var(--color-black);
+  -webkit-text-stroke: 1.5px var(--color-black);
+  transition: color var(--duration-normal) var(--ease-smooth);
+  user-select: none;
+}
+.marquee-item.outline {
+  color: transparent;
+}
+.marquee-item:hover {
+  color: var(--color-black) !important;
+}
+.marquee-separator {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-lg);
+  color: var(--black-20);
+  font-size: 40px;
+}
+/* Mix blend for dark/light transition */
+.marquee-blend {
+  mix-blend-mode: difference;
+  color: var(--color-white);
+  -webkit-text-stroke-color: var(--color-white);
+}
+
+/* ============================================
+   2. TYPOGRAPHY SECTION
+   ============================================ */
+.type-scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+.type-specimen {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-lg);
+  align-items: baseline;
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--black-10);
+}
+.type-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--black-50);
+  line-height: 1.8;
+}
+.type-meta strong {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: 4px;
+}
+
+/* Typography presets */
+.t-display {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: 120px;
+  line-height: 0.9;
+  letter-spacing: -5px;
+}
+.t-h1 {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: 80px;
+  line-height: 0.95;
+  letter-spacing: -3px;
+}
+.t-h2 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+.t-h3 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+.t-h4 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+.t-h5 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+.t-h6 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+}
+.t-body-lg {
+  font-family: var(--font-secondary);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.6;
+  letter-spacing: -0.3px;
+}
+.t-body {
+  font-family: var(--font-secondary);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.2px;
+}
+.t-body-sm {
+  font-family: var(--font-secondary);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.t-caption {
+  font-family: var(--font-secondary);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+}
+.t-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.3;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.t-helper {
+  font-family: var(--font-secondary);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--color-gray-500);
+}
+.t-mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -0.5px;
+}
+
+/* ============================================
+   3. COLOR SYSTEM
+   ============================================ */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-md);
+}
+.color-card {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--black-10);
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+.color-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.color-swatch {
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-sm);
+}
+.color-swatch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.1));
+  pointer-events: none;
+}
+.color-info {
+  padding: var(--space-md);
+  background: var(--color-white);
+}
+.color-name {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.color-values {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-gray-500);
+  line-height: 1.7;
+}
+
+/* Gradient cards */
+.gradient-card {
+  border-radius: var(--radius-xl);
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-md);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+.gradient-card:hover { transform: scale(1.02); }
+.gradient-card .gradient-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ============================================
+   4. UI COMPONENTS
+   ============================================ */
+
+/* --- BUTTONS --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.2px;
+  padding: 14px 28px;
+  border-radius: var(--radius-full);
+  transition: all var(--duration-normal) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Button shimmer effect */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.15),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.btn:hover::before {
+  transform: translateX(100%);
+}
+
+/* Primary button */
+.btn-primary {
+  background: var(--color-black);
+  color: var(--color-white);
+  border: 1px solid var(--color-black);
+}
+.btn-primary:hover {
+  background: var(--color-gray-800);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* Secondary button */
+.btn-secondary {
+  background: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--black-16);
+}
+.btn-secondary:hover {
+  background: var(--color-light);
+  border-color: var(--black-30);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Ghost button */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-black);
+  border: 1px solid var(--black-16);
+}
+.btn-ghost:hover {
+  background: var(--black-5);
+  border-color: var(--black-30);
+}
+
+/* Glass button (for dark bg) */
+.btn-glass {
+  background: var(--white-10);
+  color: var(--color-white);
+  border: 1px solid var(--white-16);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.btn-glass:hover {
+  background: var(--white-20);
+  border-color: var(--white-30);
+  box-shadow: var(--shadow-glow-white);
+  transform: translateY(-2px);
+}
+
+/* Inverted button (white on dark) */
+.btn-inverted {
+  background: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--color-white);
+}
+.btn-inverted:hover {
+  background: var(--white-85);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,255,255,0.2);
+}
+
+/* Button sizes */
+.btn-sm { font-size: 12px; padding: 8px 18px; }
+.btn-lg { font-size: 16px; padding: 18px 36px; }
+.btn-xl { font-size: 18px; padding: 22px 44px; letter-spacing: -0.3px; }
+
+/* Icon button */
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-icon.btn-sm { width: 36px; height: 36px; }
+.btn-icon.btn-lg { width: 56px; height: 56px; }
+
+/* Magnetic button effect wrapper */
+.btn-magnetic {
+  display: inline-block;
+  transition: transform 0.3s var(--ease-out);
+}
+
+/* --- INPUTS --- */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.input-label {
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-gray-700);
+}
+.input {
+  font-family: var(--font-secondary);
+  font-size: 15px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--black-16);
+  background: var(--color-white);
+  color: var(--color-black);
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+  width: 100%;
+}
+.input::placeholder { color: var(--color-gray-400); }
+.input:hover { border-color: var(--black-30); }
+.input:focus {
+  border-color: var(--color-black);
+  box-shadow: 0 0 0 3px var(--black-10);
+}
+.input-dark {
+  background: var(--white-5);
+  border-color: var(--white-16);
+  color: var(--color-white);
+}
+.input-dark::placeholder { color: var(--color-gray-500); }
+.input-dark:hover { border-color: var(--white-30); }
+.input-dark:focus {
+  border-color: var(--color-white);
+  box-shadow: 0 0 0 3px var(--white-10);
+}
+.input-error { border-color: #ef4444; }
+.input-error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+.input-helper {
+  font-size: 12px;
+  color: var(--color-gray-500);
+}
+.input-helper-error { color: #ef4444; }
+
+/* Textarea */
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* --- CARDS --- */
+.card {
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  position: relative;
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Light card */
+.card-light {
+  background: var(--color-white);
+  border: 1px solid var(--black-10);
+}
+
+/* Dark card */
+.card-dark {
+  background: var(--color-dark-card);
+  border: 1px solid var(--white-10);
+}
+.card-dark:hover {
+  border-color: var(--white-20);
+}
+
+/* Glass card */
+.card-glass {
+  background: var(--white-5);
+  border: 1px solid var(--white-10);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+}
+.card-glass:hover {
+  background: var(--white-10);
+  border-color: var(--white-20);
+  box-shadow: var(--shadow-glow-white);
+}
+
+/* Gradient border card */
+.card-gradient-border {
+  background: var(--color-dark-card);
+  position: relative;
+  border: none;
+}
+.card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--white-30), transparent, var(--white-10));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.card-image {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-out);
+}
+.card:hover .card-image {
+  transform: scale(1.05);
+}
+.card-body {
+  padding: var(--space-lg);
+}
+.card-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-sm);
+}
+.card-title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--space-sm);
+}
+.card-description {
+  font-size: 14px;
+  color: var(--color-gray-500);
+  line-height: 1.6;
+}
+
+/* Portfolio card (valfx inspired) */
+.card-portfolio {
+  background: var(--color-white);
+  border: 1px solid var(--black-10);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.card-portfolio .card-image-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+.card-portfolio .card-image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4));
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+.card-portfolio:hover .card-image-wrapper::after { opacity: 1; }
+.card-portfolio .card-number {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--black-50);
+  z-index: 2;
+}
+
+/* Service card (studio-creative style) */
+.card-service {
+  background: var(--color-dark-tertiary);
+  border: 1px solid var(--white-10);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-xl);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s var(--ease-out);
+}
+.card-service::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--white-20), transparent);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+.card-service:hover::before { opacity: 1; }
+.card-service:hover {
+  background: var(--color-gray-900);
+  border-color: var(--white-20);
+  transform: translateY(-4px);
+}
+.card-service .service-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--white-30);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--space-lg);
+}
+.card-service .service-title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--color-white);
+  letter-spacing: -0.5px;
+  margin-bottom: var(--space-md);
+}
+.card-service .service-desc {
+  font-size: 14px;
+  color: var(--color-gray-400);
+  line-height: 1.7;
+}
+
+/* --- NAVBAR (standalone component) --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky);
+  padding: 16px var(--space-lg);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+.navbar.scrolled {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--black-10);
+  box-shadow: var(--shadow-subtle);
+}
+.navbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar-logo {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+.navbar-link {
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-600);
+  transition: color var(--duration-fast) ease;
+  position: relative;
+}
+.navbar-link:hover { color: var(--color-black); }
+.navbar-link.active {
+  color: var(--color-black);
+}
+.navbar-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-black);
+  border-radius: 1px;
+}
+
+/* Dark navbar variant */
+.navbar-dark .navbar-link { color: var(--white-50); }
+.navbar-dark .navbar-link:hover { color: var(--color-white); }
+.navbar-dark .navbar-link.active { color: var(--color-white); }
+.navbar-dark .navbar-link.active::after { background: var(--color-white); }
+.navbar-dark.scrolled {
+  background: rgba(14,15,17,0.9);
+  border-bottom-color: var(--white-10);
+}
+
+/* --- MODALS --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal {
+  background: var(--color-white);
+  border-radius: var(--radius-2xl);
+  max-width: 520px;
+  width: 90%;
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-xl);
+  transform: scale(0.95) translateY(20px);
+  transition: transform var(--duration-normal) var(--ease-out);
+  position: relative;
+}
+.modal-overlay.active .modal {
+  transform: scale(1) translateY(0);
+}
+.modal-dark {
+  background: var(--color-dark-card);
+  border: 1px solid var(--white-10);
+  color: var(--color-white);
+}
+.modal-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black-5);
+  color: var(--color-gray-500);
+  transition: all var(--duration-fast) ease;
+  font-size: 18px;
+}
+.modal-close:hover {
+  background: var(--black-10);
+  color: var(--color-black);
+}
+.modal-title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--space-md);
+}
+.modal-body {
+  font-size: 15px;
+  color: var(--color-gray-600);
+  line-height: 1.7;
+  margin-bottom: var(--space-lg);
+}
+.modal-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
+
+/* --- BADGES --- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all var(--duration-fast) ease;
+}
+.badge-dark {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+.badge-light {
+  background: var(--color-light);
+  color: var(--color-gray-700);
+}
+.badge-outline {
+  background: transparent;
+  border: 1px solid var(--black-16);
+  color: var(--color-gray-600);
+}
+.badge-glass {
+  background: var(--white-10);
+  color: var(--color-white);
+  border: 1px solid var(--white-16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.badge-glow {
+  background: var(--color-black);
+  color: var(--color-white);
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+/* Badge with status dot */
+.badge-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.badge-dot-pulse::before {
+  animation: ping 1.5s ease-out infinite;
+}
+
+/* --- TOOLTIPS --- */
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all var(--duration-fast) var(--ease-out);
+  z-index: var(--z-tooltip);
+}
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--color-black);
+}
+.tooltip-wrapper:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.tooltip-light {
+  background: var(--color-white);
+  color: var(--color-black);
+  border: 1px solid var(--black-10);
+  box-shadow: var(--shadow-md);
+}
+.tooltip-light::after { border-top-color: var(--color-white); }
+
+/* --- TOGGLE / SWITCH --- */
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: var(--black-16);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--duration-fast) ease;
+}
+.toggle.active { background: var(--color-black); }
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: var(--color-white);
+  border-radius: 50%;
+  transition: transform var(--duration-fast) var(--ease-out);
+  box-shadow: var(--shadow-sm);
+}
+.toggle.active .toggle-knob { transform: translateX(22px); }
+
+/* --- ACCORDION / FAQ --- */
+.accordion-item {
+  border-bottom: 1px solid var(--black-10);
+}
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) 0;
+  font-family: var(--font-primary);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--color-black);
+  text-align: left;
+  transition: color var(--duration-fast) ease;
+}
+.accordion-trigger:hover { color: var(--color-gray-600); }
+.accordion-icon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  flex-shrink: 0;
+}
+.accordion-icon::before,
+.accordion-icon::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+.accordion-icon::before {
+  width: 14px; height: 1.5px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.accordion-icon::after {
+  width: 1.5px; height: 14px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.accordion-item.active .accordion-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-normal) var(--ease-out);
+}
+.accordion-content-inner {
+  padding-bottom: var(--space-lg);
+  font-size: 15px;
+  color: var(--color-gray-600);
+  line-height: 1.7;
+}
+
+/* ============================================
+   3D CAROUSEL (valfx inspired)
+   ============================================ */
+.carousel-3d {
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 420px;
+  cursor: grab;
+  user-select: none;
+}
+.carousel-3d:active { cursor: grabbing; }
+.carousel-3d-track {
+  transform-style: preserve-3d;
+  width: 260px;
+  height: 370px;
+  position: relative;
+  transition: transform 0.8s var(--ease-out);
+}
+.carousel-3d-card {
+  position: absolute;
+  width: 260px;
+  height: 370px;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  backface-visibility: hidden;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.6s var(--ease-out);
+}
+.carousel-3d-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.carousel-3d-card.active {
+  box-shadow: var(--shadow-xl);
+}
+
+/* ============================================
+   FALLING CAROUSEL (valfx front-drop style)
+   ============================================ */
+.carousel-fall {
+  perspective: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 520px;
+  position: relative;
+  overflow: visible;
+}
+.carousel-fall-track {
+  position: relative;
+  width: 340px;
+  height: 440px;
+  transform-style: preserve-3d;
+}
+.carousel-fall-card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25), 0 2px 10px rgba(0,0,0,0.1);
+  transform-origin: center bottom;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.7s ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.carousel-fall-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+/* Stacked cards behind — each one slightly smaller and shifted up */
+.carousel-fall-card[data-depth="0"] {
+  z-index: 50;
+  transform: translateZ(0px) translateY(0px) scale(1);
+  opacity: 1;
+}
+.carousel-fall-card[data-depth="1"] {
+  z-index: 40;
+  transform: translateZ(-40px) translateY(-20px) scale(0.94);
+  opacity: 1;
+  filter: brightness(0.92);
+}
+.carousel-fall-card[data-depth="2"] {
+  z-index: 30;
+  transform: translateZ(-80px) translateY(-40px) scale(0.88);
+  opacity: 0.85;
+  filter: brightness(0.84);
+}
+.carousel-fall-card[data-depth="3"] {
+  z-index: 20;
+  transform: translateZ(-120px) translateY(-56px) scale(0.82);
+  opacity: 0.6;
+  filter: brightness(0.76);
+}
+.carousel-fall-card[data-depth="4"],
+.carousel-fall-card[data-depth="hidden"] {
+  z-index: 10;
+  transform: translateZ(-160px) translateY(-70px) scale(0.76);
+  opacity: 0;
+  pointer-events: none;
+}
+/* The card that is dropping/falling away */
+.carousel-fall-card.is-dropping {
+  z-index: 60 !important;
+  transform: translateZ(80px) translateY(350px) scale(0.85) rotateX(-12deg) !important;
+  opacity: 0 !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35) !important;
+  transition: transform 0.65s cubic-bezier(0.55, 0, 1, 0.45),
+              opacity 0.65s cubic-bezier(0.55, 0, 1, 0.45),
+              box-shadow 0.5s ease !important;
+}
+/* Top tabs/cards peeking out at the top (decorative) */
+.carousel-fall-tabs {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 100;
+  pointer-events: none;
+}
+.carousel-fall-tab {
+  width: 40px;
+  height: 10px;
+  border-radius: 4px 4px 0 0;
+  background: var(--white-30);
+  backdrop-filter: blur(8px);
+  transition: background 0.3s ease;
+}
+.carousel-fall-tab.active {
+  background: var(--color-white);
+  box-shadow: 0 -2px 8px rgba(255,255,255,0.2);
+}
+/* Controls */
+.carousel-fall-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+.carousel-fall-counter {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-gray-500);
+  min-width: 60px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   5. ICONS
+   ============================================ */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+.icon-sm { width: 16px; height: 16px; }
+.icon-md { width: 24px; height: 24px; }
+.icon-lg { width: 32px; height: 32px; }
+.icon-xl { width: 48px; height: 48px; }
+
+.icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--black-5);
+  transition: all var(--duration-fast) ease;
+}
+.icon-box:hover {
+  background: var(--black-10);
+  transform: translateY(-2px);
+}
+.icon-box-dark {
+  background: var(--white-10);
+}
+.icon-box-dark:hover { background: var(--white-20); }
+
+/* ============================================
+   6. ANIMATION SHOWCASE
+   ============================================ */
+.anim-box {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-lg);
+  background: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.anim-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  border-radius: var(--radius-xl);
+  background: var(--color-light);
+  padding: var(--space-lg);
+}
+.anim-dark { background: var(--color-dark); }
+
+/* Stats counter */
+.stat-number {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: 64px;
+  letter-spacing: -3px;
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-gray-400);
+  margin-top: var(--space-sm);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1199px) {
+  .hero-title { font-size: clamp(48px, 10vw, 100px); letter-spacing: -2px; }
+  .t-display { font-size: 80px; letter-spacing: -3px; }
+  .t-h1 { font-size: 56px; }
+  .type-specimen { grid-template-columns: 1fr; }
+}
+@media (max-width: 809px) {
+  .hero-title { font-size: clamp(36px, 12vw, 72px); letter-spacing: -1.5px; }
+  .hero-nav-links { display: none; }
+  .hero-bottom { flex-wrap: wrap; gap: var(--space-md); }
+  .container { padding: 0 var(--space-md); }
+  .section { padding: var(--space-3xl) 0; }
+  .t-display { font-size: 48px; letter-spacing: -2px; }
+  .t-h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .t-h2 { font-size: 32px; }
+  .color-grid { grid-template-columns: repeat(2, 1fr); }
+  .marquee-item { font-size: 48px; letter-spacing: -2px; }
+}
+
+/* ============================================
+   COMPONENT DEMO LAYOUT HELPERS
+   ============================================ */
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-lg);
+}
+.demo-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+@media (max-width: 809px) {
+  .demo-grid-3 { grid-template-columns: 1fr; }
+}
+.demo-dark-area {
+  background: var(--color-dark);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-xl);
+}
+.demo-spacer { height: var(--space-3xl); }
+.subsection-title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.subsection-title .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-black);
+}
+.section-dark .subsection-title .dot { background: var(--color-white); }
+</style>
+</head>
+
+<body>
+
+<!-- ===================================================================
+     1. HERO SECTION (sticky with diagonal reveal)
+     =================================================================== -->
+<div class="hero-sticky-wrapper">
+<section class="hero" id="hero">
+  <!-- Background image with zoom animation -->
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=1920&q=80" alt="Abstract dark gradient" loading="eager">
+  </div>
+
+  <!-- Particle canvas -->
+  <canvas class="hero-particles" id="heroParticles"></canvas>
+
+  <!-- Cursor glow -->
+  <div class="hero-glow" id="heroGlow"></div>
+
+  <!-- Background orbs -->
+  <div class="bg-orbs bg-orbs-dark">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="hero-nav">
+    <div class="hero-nav-logo">
+      <div class="logo-dot"></div>
+      Design System
+    </div>
+    <div class="hero-nav-links">
+      <a href="#typography"><span class="nav-index">01</span> Typography</a>
+      <a href="#colors"><span class="nav-index">02</span> Colors</a>
+      <a href="#components"><span class="nav-index">03</span> Components</a>
+      <a href="#animations"><span class="nav-index">04</span> Animations</a>
+    </div>
+  </nav>
+
+  <!-- Hero content -->
+  <div class="hero-content">
+    <h1 class="hero-title" style="font-size: clamp(60px, 10vw, 140px);">
+      <span class="line"><span class="line-inner text-fill-white">Crafting</span></span>
+      <span class="line"><span class="line-inner text-transparent-stroke">Visual</span></span>
+      <span class="line"><span class="line-inner"><span class="text-fill-white">Systems</span><span class="text-ghost" style="margin-left: 20px; font-size: 0.5em; vertical-align: middle;">2026</span></span></span>
+    </h1>
+    <p class="hero-subtitle">A comprehensive black &amp; white design system combining bold typography, elegant motion, and refined components.</p>
+    <div class="hero-cta">
+      <a href="#typography" class="btn btn-inverted btn-lg">
+        Explore System
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h8M9 4l4 4-4 4"/></svg>
+      </a>
+      <a href="#components" class="btn btn-glass">
+        Components
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom keywords bar -->
+  <div class="hero-bottom">
+    <span class="hero-bottom-item"><span class="index">01/</span> Typography</span>
+    <span class="hero-bottom-item"><span class="index">02/</span> Colors</span>
+    <span class="hero-bottom-item"><span class="index">03/</span> Components</span>
+    <span class="hero-bottom-item"><span class="index">04/</span> Animations</span>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+</div><!-- end hero-sticky-wrapper -->
+
+<!-- Diagonal reveal wrapper — everything after hero goes inside -->
+<div class="diagonal-reveal">
+<div class="diagonal-reveal-inner" id="diagonalReveal">
+
+<!-- Diagonal top info bar (valfx style) -->
+<div style="padding: 20px var(--space-lg); max-width: 1440px; margin: 0 auto; position: relative; z-index: 3;">
+  <hr class="gradient-divider" style="margin-bottom: 16px;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-family: var(--font-secondary); font-size: 13px; color: var(--black-50); display: flex; align-items: center; gap: 6px;">
+      <span style="width: 5px; height: 5px; background: var(--color-black); border-radius: 50; display: inline-block;"></span>
+      (01)
+    </span>
+    <span style="font-family: var(--font-secondary); font-size: 13px; color: var(--black-50);">(Design System)</span>
+    <span style="font-family: var(--font-secondary); font-size: 13px; color: var(--black-50);">&copy; 2026</span>
+  </div>
+</div>
+
+<!-- ===================================================================
+     MARQUEE TICKER
+     =================================================================== -->
+<section class="section section-light" style="padding: 20px 0; overflow: hidden;">
+  <div class="marquee-wrapper">
+    <div class="marquee-track">
+      <span class="marquee-item outline">Design</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item">System</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item outline">Typography</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item">Motion</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item outline">Components</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item">Icons</span>
+      <span class="marquee-separator">&bull;</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="marquee-item outline">Design</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item">System</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item outline">Typography</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item">Motion</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item outline">Components</span>
+      <span class="marquee-separator">&bull;</span>
+      <span class="marquee-item">Icons</span>
+      <span class="marquee-separator">&bull;</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     2. TYPOGRAPHY SECTION
+     =================================================================== -->
+<section class="section section-light" id="typography">
+  <div class="bg-grid"></div>
+  <div class="bg-noise"></div>
+  <div class="container relative" style="z-index:1;">
+
+    <div class="section-header reveal">
+      <p class="section-label">02 &mdash; Typography</p>
+      <h2 class="section-title">Type Scale</h2>
+    </div>
+
+    <!-- Font families -->
+    <div class="subsection-title reveal"><span class="dot"></span> Font Families</div>
+    <div class="demo-grid-3 reveal" style="margin-bottom: var(--space-3xl);">
+      <div style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--black-10);">
+        <p class="t-label" style="margin-bottom: 12px;">Primary</p>
+        <p style="font-family: var(--font-primary); font-size: 28px; font-weight: 800; letter-spacing: -1px;">Bricolage Grotesque</p>
+        <p class="t-helper" style="margin-top: 8px;">font-family: 'Bricolage Grotesque'<br>Weights: 400 &ndash; 800</p>
+      </div>
+      <div style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--black-10);">
+        <p class="t-label" style="margin-bottom: 12px;">Secondary</p>
+        <p style="font-family: var(--font-secondary); font-size: 28px; font-weight: 600; letter-spacing: -0.5px;">Inter</p>
+        <p class="t-helper" style="margin-top: 8px;">font-family: 'Inter'<br>Weights: 300 &ndash; 900</p>
+      </div>
+      <div style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--black-10);">
+        <p class="t-label" style="margin-bottom: 12px;">Monospace</p>
+        <p style="font-family: var(--font-mono); font-size: 28px; font-weight: 500; letter-spacing: -0.5px;">Space Grotesk</p>
+        <p class="t-helper" style="margin-top: 8px;">font-family: 'Space Grotesk'<br>Weights: 400 &ndash; 700</p>
+      </div>
+    </div>
+
+    <!-- Full type scale -->
+    <div class="subsection-title reveal"><span class="dot"></span> Full Scale</div>
+    <div class="type-scale">
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Display</strong>
+          font-weight: 800<br>
+          font-size: 120px<br>
+          line-height: 0.9<br>
+          letter-spacing: -5px
+        </div>
+        <p class="t-display">Aa</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Heading 1</strong>
+          font-weight: 800<br>
+          font-size: 80px<br>
+          line-height: 0.95<br>
+          letter-spacing: -3px
+        </div>
+        <p class="t-h1">Heading One</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Heading 2</strong>
+          font-weight: 700<br>
+          font-size: 56px<br>
+          line-height: 1.0<br>
+          letter-spacing: -2px
+        </div>
+        <p class="t-h2">Heading Two</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Heading 3</strong>
+          font-weight: 700<br>
+          font-size: 40px<br>
+          line-height: 1.1<br>
+          letter-spacing: -1.5px
+        </div>
+        <p class="t-h3">Heading Three</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Heading 4</strong>
+          font-weight: 600<br>
+          font-size: 30px<br>
+          line-height: 1.2<br>
+          letter-spacing: -1px
+        </div>
+        <p class="t-h4">Heading Four</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Heading 5</strong>
+          font-weight: 600<br>
+          font-size: 22px<br>
+          line-height: 1.3<br>
+          letter-spacing: -0.5px
+        </div>
+        <p class="t-h5">Heading Five</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Heading 6</strong>
+          font-weight: 600<br>
+          font-size: 18px<br>
+          line-height: 1.4<br>
+          letter-spacing: -0.3px
+        </div>
+        <p class="t-h6">Heading Six</p>
+      </div>
+
+      <hr class="gradient-divider" style="margin: 20px 0;">
+
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Body Large</strong>
+          font-weight: 400<br>
+          font-size: 20px<br>
+          line-height: 1.6<br>
+          letter-spacing: -0.3px
+        </div>
+        <p class="t-body-lg">The quick brown fox jumps over the lazy dog. Typography is the art of arranging type to make written language legible and beautiful.</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Body</strong>
+          font-weight: 400<br>
+          font-size: 16px<br>
+          line-height: 1.6<br>
+          letter-spacing: -0.2px
+        </div>
+        <p class="t-body">The quick brown fox jumps over the lazy dog. Typography is the art of arranging type to make written language legible, readable, and appealing when displayed.</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Body Small</strong>
+          font-weight: 400<br>
+          font-size: 14px<br>
+          line-height: 1.5
+        </div>
+        <p class="t-body-sm">The quick brown fox jumps over the lazy dog. Typography is the art of arranging type to make written language legible.</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Caption</strong>
+          font-weight: 500<br>
+          font-size: 12px<br>
+          line-height: 1.4
+        </div>
+        <p class="t-caption">Caption text for images, footnotes, and metadata</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Label</strong>
+          font-weight: 500<br>
+          font-size: 11px<br>
+          letter-spacing: 2px<br>
+          text-transform: uppercase
+        </div>
+        <p class="t-label">Label &mdash; Uppercase Tracking</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Helper</strong>
+          font-weight: 400<br>
+          font-size: 12px<br>
+          color: gray-500
+        </div>
+        <p class="t-helper">Helper text for form fields, tooltips, and subtle annotations</p>
+      </div>
+      <div class="type-specimen reveal">
+        <div class="type-meta">
+          <strong>Monospace</strong>
+          font-weight: 400<br>
+          font-size: 14px<br>
+          letter-spacing: -0.5px
+        </div>
+        <p class="t-mono">const designSystem = { theme: 'monochrome' };</p>
+      </div>
+    </div>
+
+    <!-- Transparent lettering showcase -->
+    <div class="demo-spacer"></div>
+    <div class="subsection-title reveal"><span class="dot"></span> Transparent Lettering</div>
+    <div class="reveal" style="margin-bottom: var(--space-xl);">
+      <p class="t-h1 text-transparent-stroke-dark" style="font-size: clamp(48px, 8vw, 100px); margin-bottom: 16px;">Outline Text</p>
+      <p class="t-h1" style="font-size: clamp(48px, 8vw, 100px); margin-bottom: 16px;">Filled Text</p>
+      <p class="t-h1 text-ghost-dark" style="font-size: clamp(48px, 8vw, 100px);">Ghost Text</p>
+    </div>
+    <div class="demo-dark-area reveal" style="margin-bottom: var(--space-xl);">
+      <p class="t-h1 text-transparent-stroke" style="font-size: clamp(48px, 8vw, 100px); margin-bottom: 16px;">Outline Text</p>
+      <p class="t-h1 text-fill-white" style="font-size: clamp(48px, 8vw, 100px); margin-bottom: 16px;">Filled Text</p>
+      <p class="t-h1 text-ghost" style="font-size: clamp(48px, 8vw, 100px);">Ghost Text</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     3. COLOR SYSTEM
+     =================================================================== -->
+<section class="section section-alt" id="colors">
+  <div class="bg-orbs">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="bg-noise"></div>
+  <div class="container relative" style="z-index:1;">
+
+    <div class="section-header reveal">
+      <p class="section-label">03 &mdash; Colors</p>
+      <h2 class="section-title">Color<br>System</h2>
+    </div>
+
+    <!-- Primary colors -->
+    <div class="subsection-title reveal"><span class="dot"></span> Core Palette</div>
+    <div class="color-grid reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="color-card">
+        <div class="color-swatch" style="background: #000000;"></div>
+        <div class="color-info">
+          <p class="color-name">Black</p>
+          <p class="color-values">
+            HEX #000000<br>
+            RGB 0, 0, 0<br>
+            HSL 0, 0%, 0%<br>
+            <strong>Role:</strong> Primary
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #ffffff; border-bottom: 1px solid var(--black-10);"></div>
+        <div class="color-info">
+          <p class="color-name">White</p>
+          <p class="color-values">
+            HEX #FFFFFF<br>
+            RGB 255, 255, 255<br>
+            HSL 0, 0%, 100%<br>
+            <strong>Role:</strong> Primary
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #0E0F11;"></div>
+        <div class="color-info">
+          <p class="color-name">Dark</p>
+          <p class="color-values">
+            HEX #0E0F11<br>
+            RGB 14, 15, 17<br>
+            HSL 220, 10%, 6%<br>
+            <strong>Role:</strong> Background
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #111111;"></div>
+        <div class="color-info">
+          <p class="color-name">Dark Secondary</p>
+          <p class="color-values">
+            HEX #111111<br>
+            RGB 17, 17, 17<br>
+            HSL 0, 0%, 7%<br>
+            <strong>Role:</strong> Surface
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #f7f7f7; border-bottom: 1px solid var(--black-10);"></div>
+        <div class="color-info">
+          <p class="color-name">Light</p>
+          <p class="color-values">
+            HEX #F7F7F7<br>
+            RGB 247, 247, 247<br>
+            HSL 0, 0%, 97%<br>
+            <strong>Role:</strong> Alt Background
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #d1e1e8;"></div>
+        <div class="color-info">
+          <p class="color-name">Accent</p>
+          <p class="color-values">
+            HEX #D1E1E8<br>
+            RGB 209, 225, 232<br>
+            HSL 198, 30%, 86%<br>
+            <strong>Role:</strong> Accent / Decorative
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gray scale -->
+    <div class="subsection-title reveal"><span class="dot"></span> Gray Scale</div>
+    <div class="color-grid reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="color-card">
+        <div class="color-swatch" style="background: #1e1e1e;"></div>
+        <div class="color-info"><p class="color-name">Gray 900</p><p class="color-values">HEX #1E1E1E<br>RGB 30, 30, 30</p></div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #29292b;"></div>
+        <div class="color-info"><p class="color-name">Gray 800</p><p class="color-values">HEX #29292B<br>RGB 41, 41, 43</p></div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #333333;"></div>
+        <div class="color-info"><p class="color-name">Gray 700</p><p class="color-values">HEX #333333<br>RGB 51, 51, 51</p></div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #52525B;"></div>
+        <div class="color-info"><p class="color-name">Gray 600</p><p class="color-values">HEX #52525B<br>RGB 82, 82, 91</p></div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #7f7f80;"></div>
+        <div class="color-info"><p class="color-name">Gray 500</p><p class="color-values">HEX #7F7F80<br>RGB 127, 127, 128</p></div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #999999;"></div>
+        <div class="color-info"><p class="color-name">Gray 400</p><p class="color-values">HEX #999999<br>RGB 153, 153, 153</p></div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #bbbbbb;"></div>
+        <div class="color-info"><p class="color-name">Gray 200</p><p class="color-values">HEX #BBBBBB<br>RGB 187, 187, 187</p></div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #eaeaea; border-bottom: 1px solid var(--black-10);"></div>
+        <div class="color-info"><p class="color-name">Gray 50</p><p class="color-values">HEX #EAEAEA<br>RGB 234, 234, 234</p></div>
+      </div>
+    </div>
+
+    <!-- Opacity variants -->
+    <div class="subsection-title reveal"><span class="dot"></span> Opacity Variants</div>
+    <div class="demo-grid reveal" style="margin-bottom: var(--space-3xl);">
+      <div style="padding: 24px; border-radius: var(--radius-xl); background: var(--color-dark); display: flex; flex-direction: column; gap: 8px;">
+        <p class="t-label" style="color: var(--white-50); margin-bottom: 8px;">White Opacities</p>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #ffffffd9;"></span>
+          <span class="t-mono" style="color: var(--color-white); font-size: 12px;">85% &mdash; #FFFFFFD9</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #ffffff80;"></span>
+          <span class="t-mono" style="color: var(--color-white); font-size: 12px;">50% &mdash; #FFFFFF80</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #ffffff4d;"></span>
+          <span class="t-mono" style="color: var(--color-white); font-size: 12px;">30% &mdash; #FFFFFF4D</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #ffffff29;"></span>
+          <span class="t-mono" style="color: var(--color-white); font-size: 12px;">16% &mdash; #FFFFFF29</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #ffffff1a;"></span>
+          <span class="t-mono" style="color: var(--color-white); font-size: 12px;">10% &mdash; #FFFFFF1A</span>
+        </div>
+      </div>
+      <div style="padding: 24px; border-radius: var(--radius-xl); border: 1px solid var(--black-10); display: flex; flex-direction: column; gap: 8px;">
+        <p class="t-label" style="color: var(--black-50); margin-bottom: 8px;">Black Opacities</p>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #000000d9;"></span>
+          <span class="t-mono" style="font-size: 12px;">85% &mdash; #000000D9</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #00000080;"></span>
+          <span class="t-mono" style="font-size: 12px;">50% &mdash; #00000080</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #0000004d;"></span>
+          <span class="t-mono" style="font-size: 12px;">30% &mdash; #0000004D</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #00000029;"></span>
+          <span class="t-mono" style="font-size: 12px;">16% &mdash; #00000029</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 40px; height: 40px; border-radius: 8px; background: #0000001a;"></span>
+          <span class="t-mono" style="font-size: 12px;">10% &mdash; #0000001A</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gradients -->
+    <div class="subsection-title reveal"><span class="dot"></span> Gradients</div>
+    <div class="demo-grid-3 reveal">
+      <div class="gradient-card" style="background: linear-gradient(135deg, #000 0%, #333 100%);">
+        <span class="gradient-label" style="color: #fff; background: rgba(255,255,255,0.1);">Dark Fade</span>
+      </div>
+      <div class="gradient-card" style="background: linear-gradient(135deg, #f7f7f7 0%, #d1e1e8 100%); border: 1px solid var(--black-10);">
+        <span class="gradient-label" style="color: #000; background: rgba(0,0,0,0.05);">Light Accent</span>
+      </div>
+      <div class="gradient-card" style="background: linear-gradient(180deg, #000 0%, transparent 100%), linear-gradient(135deg, #1e1e1e 0%, #0E0F11 100%);">
+        <span class="gradient-label" style="color: #fff; background: rgba(255,255,255,0.1);">Depth</span>
+      </div>
+      <div class="gradient-card" style="background: radial-gradient(circle at 30% 30%, #333 0%, #000 70%);">
+        <span class="gradient-label" style="color: #fff; background: rgba(255,255,255,0.1);">Radial Spotlight</span>
+      </div>
+      <div class="gradient-card" style="background: linear-gradient(135deg, #fff 0%, #eaeaea 50%, #d1e1e8 100%); border: 1px solid var(--black-10);">
+        <span class="gradient-label" style="color: #000; background: rgba(0,0,0,0.05);">Soft Sweep</span>
+      </div>
+      <div class="gradient-card" style="background: conic-gradient(from 180deg, #000, #333, #000);">
+        <span class="gradient-label" style="color: #fff; background: rgba(255,255,255,0.1);">Conic</span>
+      </div>
+    </div>
+
+    <!-- Contextual usage rules -->
+    <div class="demo-spacer"></div>
+    <div class="subsection-title reveal"><span class="dot"></span> Semantic Usage</div>
+    <div class="reveal" style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-family: var(--font-secondary); font-size: 14px;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-black);">
+            <th style="text-align: left; padding: 12px 16px; font-weight: 600;">Context</th>
+            <th style="text-align: left; padding: 12px 16px; font-weight: 600;">Light Mode</th>
+            <th style="text-align: left; padding: 12px 16px; font-weight: 600;">Dark Mode</th>
+            <th style="text-align: left; padding: 12px 16px; font-weight: 600;">Contrast</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--black-10);">
+            <td style="padding: 12px 16px; font-weight: 500;">Text / Primary</td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#000000</span></td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#FFFFFF</span></td>
+            <td style="padding: 12px 16px;">AAA 21:1</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--black-10);">
+            <td style="padding: 12px 16px; font-weight: 500;">Text / Secondary</td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#00000080</span></td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#FFFFFF80</span></td>
+            <td style="padding: 12px 16px;">AA 4.6:1</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--black-10);">
+            <td style="padding: 12px 16px; font-weight: 500;">Background</td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#FFFFFF</span></td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#0E0F11</span></td>
+            <td style="padding: 12px 16px;">&mdash;</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--black-10);">
+            <td style="padding: 12px 16px; font-weight: 500;">Border</td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#00000029</span></td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#FFFFFF29</span></td>
+            <td style="padding: 12px 16px;">Decorative</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--black-10);">
+            <td style="padding: 12px 16px; font-weight: 500;">Hover</td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#F7F7F7</span></td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#1E1E1E</span></td>
+            <td style="padding: 12px 16px;">&mdash;</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 16px; font-weight: 500;">Disabled</td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#0000001A</span></td>
+            <td style="padding: 12px 16px;"><span class="t-mono" style="font-size: 12px;">#FFFFFF1A</span></td>
+            <td style="padding: 12px 16px;">Below AA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     4. UI COMPONENTS
+     =================================================================== -->
+<section class="section section-light" id="components">
+  <div class="bg-grid"></div>
+  <div class="container relative" style="z-index:1;">
+
+    <div class="section-header reveal">
+      <p class="section-label">04 &mdash; Components</p>
+      <h2 class="section-title">UI Kit</h2>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="subsection-title reveal"><span class="dot"></span> Buttons</div>
+    <div class="reveal" style="margin-bottom: var(--space-xl);">
+      <p class="t-label" style="margin-bottom: 16px;">Light Background</p>
+      <div class="demo-row" style="margin-bottom: var(--space-lg);">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+        <button class="btn btn-primary btn-xl">Extra Large</button>
+      </div>
+      <div class="demo-row" style="margin-bottom: var(--space-lg);">
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-ghost">Ghost</button>
+        <button class="btn btn-primary" disabled style="opacity: 0.4; pointer-events: none;">Disabled</button>
+      </div>
+      <div class="demo-row" style="margin-bottom: var(--space-lg);">
+        <button class="btn btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v12M2 8h12"/></svg>
+          With Icon
+        </button>
+        <button class="btn btn-secondary">
+          Learn More
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h8M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="btn btn-icon btn-primary">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+        </button>
+        <button class="btn btn-icon btn-ghost">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M7 13l3 3 3-3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-dark-area reveal" style="margin-bottom: var(--space-3xl);">
+      <p class="t-label" style="margin-bottom: 16px; color: var(--white-50);">Dark Background</p>
+      <div class="demo-row" style="margin-bottom: var(--space-lg);">
+        <button class="btn btn-inverted">Inverted</button>
+        <button class="btn btn-glass">Glass</button>
+        <button class="btn btn-glass">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+          With Icon
+        </button>
+        <button class="btn btn-icon btn-glass">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4l6 6-6 6"/><path d="M4 10h12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- INPUTS -->
+    <div class="subsection-title reveal"><span class="dot"></span> Inputs</div>
+    <div class="demo-grid reveal" style="margin-bottom: var(--space-lg);">
+      <div class="input-group">
+        <label class="input-label">Name</label>
+        <input type="text" class="input" placeholder="Enter your name">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Email</label>
+        <input type="email" class="input" placeholder="hello@example.com">
+        <span class="input-helper">We'll never share your email.</span>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Error State</label>
+        <input type="text" class="input input-error" value="Invalid input" placeholder="Error">
+        <span class="input-helper input-helper-error">This field is required.</span>
+      </div>
+    </div>
+    <div class="demo-dark-area reveal" style="margin-bottom: var(--space-lg);">
+      <div class="demo-grid">
+        <div class="input-group">
+          <label class="input-label" style="color: var(--color-gray-300);">Dark Input</label>
+          <input type="text" class="input input-dark" placeholder="Dark mode input">
+        </div>
+        <div class="input-group">
+          <label class="input-label" style="color: var(--color-gray-300);">Search</label>
+          <input type="search" class="input input-dark" placeholder="Search...">
+        </div>
+      </div>
+    </div>
+    <div class="demo-grid reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="input-group">
+        <label class="input-label">Message</label>
+        <textarea class="input textarea" placeholder="Type your message..."></textarea>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Select</label>
+        <select class="input">
+          <option>Choose an option</option>
+          <option>Option A</option>
+          <option>Option B</option>
+          <option>Option C</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="subsection-title reveal"><span class="dot"></span> Cards</div>
+    <div class="demo-grid-3 reveal" style="margin-bottom: var(--space-lg);">
+      <div class="card card-light">
+        <div class="overflow-hidden">
+          <img class="card-image" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80" alt="Abstract">
+        </div>
+        <div class="card-body">
+          <p class="card-tag">01 &mdash; Design</p>
+          <h3 class="card-title">Light Card</h3>
+          <p class="card-description">A clean card with subtle border and hover elevation effect.</p>
+        </div>
+      </div>
+      <div class="card card-light">
+        <div class="overflow-hidden">
+          <img class="card-image" src="https://images.unsplash.com/photo-1634017839464-5c339bbe3579?w=600&q=80" alt="Abstract">
+        </div>
+        <div class="card-body">
+          <p class="card-tag">02 &mdash; Motion</p>
+          <h3 class="card-title">Hover to Scale</h3>
+          <p class="card-description">Image scales on hover with smooth easing transition.</p>
+        </div>
+      </div>
+      <div class="card card-light">
+        <div class="overflow-hidden">
+          <img class="card-image" src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=600&q=80" alt="Abstract">
+        </div>
+        <div class="card-body">
+          <p class="card-tag">03 &mdash; System</p>
+          <h3 class="card-title">Portfolio Style</h3>
+          <p class="card-description">Inspired by valfx numbered portfolio card layout.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark cards -->
+    <div class="demo-dark-area reveal" style="margin-bottom: var(--space-3xl);">
+      <p class="t-label" style="margin-bottom: 20px; color: var(--white-50);">Dark &amp; Glass Cards</p>
+      <div class="demo-grid-3">
+        <div class="card card-dark" style="padding: var(--space-lg);">
+          <p class="card-tag" style="color: var(--color-gray-400);">Dark</p>
+          <h3 class="card-title" style="color: var(--color-white);">Dark Card</h3>
+          <p class="card-description" style="color: var(--color-gray-400);">Subtle dark surface with white-opacity border.</p>
+        </div>
+        <div class="card card-glass" style="padding: var(--space-lg);">
+          <p class="card-tag" style="color: var(--color-gray-400);">Glass</p>
+          <h3 class="card-title" style="color: var(--color-white);">Glass Card</h3>
+          <p class="card-description" style="color: var(--color-gray-400);">Frosted glass with backdrop-blur effect.</p>
+        </div>
+        <div class="card card-gradient-border" style="padding: var(--space-lg);">
+          <p class="card-tag" style="color: var(--color-gray-400);">Gradient</p>
+          <h3 class="card-title" style="color: var(--color-white);">Gradient Border</h3>
+          <p class="card-description" style="color: var(--color-gray-400);">Subtle animated gradient border effect.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service cards -->
+    <div class="subsection-title reveal"><span class="dot"></span> Service Cards</div>
+    <div class="demo-dark-area reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="demo-grid-3">
+        <div class="card-service">
+          <p class="service-number">01 &mdash; Strategy</p>
+          <h3 class="service-title">Brand Strategy</h3>
+          <p class="service-desc">Define your brand's core identity, positioning, and visual language for maximum impact.</p>
+        </div>
+        <div class="card-service">
+          <p class="service-number">02 &mdash; Design</p>
+          <h3 class="service-title">Visual Identity</h3>
+          <p class="service-desc">Comprehensive design system including typography, color, and component architecture.</p>
+        </div>
+        <div class="card-service">
+          <p class="service-number">03 &mdash; Motion</p>
+          <h3 class="service-title">Animation</h3>
+          <p class="service-desc">Bring interfaces to life with purposeful motion design and micro-interactions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="subsection-title reveal"><span class="dot"></span> Navbars</div>
+    <div class="reveal" style="margin-bottom: var(--space-lg);">
+      <div style="border-radius: var(--radius-xl); border: 1px solid var(--black-10); padding: 16px 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-family: var(--font-primary); font-weight: 800; font-size: 18px; letter-spacing: -0.5px;">Brand</span>
+          <div style="display: flex; align-items: center; gap: 32px;">
+            <a href="#" class="navbar-link active">Home</a>
+            <a href="#" class="navbar-link">About</a>
+            <a href="#" class="navbar-link">Work</a>
+            <a href="#" class="navbar-link">Contact</a>
+            <button class="btn btn-primary btn-sm">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-dark-area reveal" style="margin-bottom: var(--space-3xl);">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-family: var(--font-primary); font-weight: 800; font-size: 18px; letter-spacing: -0.5px; color: var(--color-white);">Brand</span>
+        <div style="display: flex; align-items: center; gap: 32px;">
+          <a href="#" class="navbar-link navbar-dark" style="color: var(--color-white);">Home</a>
+          <a href="#" class="navbar-link navbar-dark" style="color: var(--white-50);">About</a>
+          <a href="#" class="navbar-link navbar-dark" style="color: var(--white-50);">Work</a>
+          <button class="btn btn-glass btn-sm">Contact</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES -->
+    <div class="subsection-title reveal"><span class="dot"></span> Badges</div>
+    <div class="demo-row reveal" style="margin-bottom: var(--space-lg);">
+      <span class="badge badge-dark">Dark</span>
+      <span class="badge badge-light">Light</span>
+      <span class="badge badge-outline">Outline</span>
+      <span class="badge badge-dark badge-dot">Active</span>
+      <span class="badge badge-outline badge-dot badge-dot-pulse">Live</span>
+    </div>
+    <div class="demo-dark-area reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="demo-row">
+        <span class="badge badge-glass">Glass</span>
+        <span class="badge badge-glass badge-dot">Status</span>
+        <span class="badge badge-glow">Glow</span>
+      </div>
+    </div>
+
+    <!-- TOOLTIPS -->
+    <div class="subsection-title reveal"><span class="dot"></span> Tooltips</div>
+    <div class="demo-row reveal" style="margin-bottom: var(--space-lg); padding-top: 50px;">
+      <div class="tooltip-wrapper">
+        <button class="btn btn-secondary">Hover me</button>
+        <div class="tooltip">Dark tooltip</div>
+      </div>
+      <div class="tooltip-wrapper">
+        <button class="btn btn-ghost">Light tooltip</button>
+        <div class="tooltip tooltip-light">Light tooltip</div>
+      </div>
+      <div class="tooltip-wrapper">
+        <button class="btn btn-icon btn-ghost">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="10" r="8"/><path d="M10 7v0M10 10v4"/></svg>
+        </button>
+        <div class="tooltip">Info</div>
+      </div>
+    </div>
+
+    <!-- TOGGLES -->
+    <div class="subsection-title reveal" style="margin-top: var(--space-xl);"><span class="dot"></span> Toggles</div>
+    <div class="demo-row reveal" style="margin-bottom: var(--space-lg);">
+      <div class="toggle" onclick="this.classList.toggle('active')">
+        <div class="toggle-knob"></div>
+      </div>
+      <div class="toggle active" onclick="this.classList.toggle('active')">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="subsection-title reveal" style="margin-top: var(--space-xl);"><span class="dot"></span> Modal</div>
+    <div class="reveal" style="margin-bottom: var(--space-lg);">
+      <button class="btn btn-primary" onclick="document.getElementById('demoModal').classList.add('active')">Open Modal</button>
+    </div>
+
+    <!-- ACCORDION -->
+    <div class="subsection-title reveal" style="margin-top: var(--space-xl);"><span class="dot"></span> Accordion / FAQ</div>
+    <div class="reveal" style="max-width: 700px; margin-bottom: var(--space-3xl);">
+      <div class="accordion-item" onclick="this.classList.toggle('active'); const c=this.querySelector('.accordion-content'); c.style.maxHeight = c.style.maxHeight ? null : c.scrollHeight+'px';">
+        <button class="accordion-trigger">
+          What is this design system?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-content-inner">A comprehensive black & white design system combining bold typography, elegant motion design, and refined UI components. It draws inspiration from modern portfolio aesthetics and creative studio design patterns.</div>
+        </div>
+      </div>
+      <div class="accordion-item" onclick="this.classList.toggle('active'); const c=this.querySelector('.accordion-content'); c.style.maxHeight = c.style.maxHeight ? null : c.scrollHeight+'px';">
+        <button class="accordion-trigger">
+          What fonts are used?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-content-inner">The system uses Bricolage Grotesque for headings, Inter for body text, and Space Grotesk for monospace/code elements. All fonts are loaded via Google Fonts CDN with display: swap for optimal performance.</div>
+        </div>
+      </div>
+      <div class="accordion-item" onclick="this.classList.toggle('active'); const c=this.querySelector('.accordion-content'); c.style.maxHeight = c.style.maxHeight ? null : c.scrollHeight+'px';">
+        <button class="accordion-trigger">
+          How do the animations work?
+          <span class="accordion-icon"></span>
+        </button>
+        <div class="accordion-content">
+          <div class="accordion-content-inner">Animations use a combination of CSS @keyframes and Intersection Observer API for scroll-triggered reveals. The system includes fade, scale, blur, slide, and spring-based animations with configurable easing curves inspired by Framer Motion.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     5. ICONS
+     =================================================================== -->
+<section class="section section-dark" id="icons">
+  <div class="bg-orbs bg-orbs-dark">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="bg-grid bg-grid-dark"></div>
+  <div class="container relative" style="z-index:1;">
+
+    <div class="section-header reveal">
+      <p class="section-label">05 &mdash; Icons</p>
+      <h2 class="section-title" style="color: var(--color-white);">Icon Set</h2>
+    </div>
+
+    <div class="subsection-title reveal" style="color: var(--color-white);"><span class="dot"></span> Icon Sizes</div>
+    <div class="demo-row reveal" style="margin-bottom: var(--space-xl); color: var(--color-white);">
+      <div style="text-align: center;">
+        <span class="icon icon-sm" style="color: var(--color-white);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <p class="t-caption" style="color: var(--white-50); margin-top: 8px;">16px</p>
+      </div>
+      <div style="text-align: center;">
+        <span class="icon icon-md" style="color: var(--color-white);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <p class="t-caption" style="color: var(--white-50); margin-top: 8px;">24px</p>
+      </div>
+      <div style="text-align: center;">
+        <span class="icon icon-lg" style="color: var(--color-white);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <p class="t-caption" style="color: var(--white-50); margin-top: 8px;">32px</p>
+      </div>
+      <div style="text-align: center;">
+        <span class="icon icon-xl" style="color: var(--color-white);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        <p class="t-caption" style="color: var(--white-50); margin-top: 8px;">48px</p>
+      </div>
+    </div>
+
+    <div class="subsection-title reveal" style="color: var(--color-white);"><span class="dot"></span> Icon Library</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: var(--space-xl);" class="stagger-in">
+      <!-- Arrow icons -->
+      <div class="icon-box icon-box-dark" title="Arrow Right">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Arrow Up-Right">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Arrow Down">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+      <!-- UI icons -->
+      <div class="icon-box icon-box-dark" title="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Check">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Star">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Heart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Mail">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Eye">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Layers">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Zap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="icon-box icon-box-dark" title="Globe">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+    </div>
+
+    <div class="subsection-title reveal" style="color: var(--color-white);"><span class="dot"></span> Icon Boxes (Light)</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; background: var(--color-white); border-radius: var(--radius-xl); padding: 24px;" class="reveal">
+      <div class="icon-box" title="Arrow Right">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+      <div class="icon-box" title="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <div class="icon-box" title="Star">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="icon-box" title="Layers">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </div>
+      <div class="icon-box" title="Zap">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     MARQUEE DARK (mix-blend-mode)
+     =================================================================== -->
+<section style="background: var(--color-dark); padding: 10px 0; overflow: hidden;">
+  <div class="marquee-wrapper">
+    <div class="marquee-track" style="animation-duration: 35s;">
+      <span class="marquee-item marquee-blend outline" style="font-size: clamp(48px, 10vw, 160px);">Animations</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+      <span class="marquee-item marquee-blend" style="font-size: clamp(48px, 10vw, 160px);">Transitions</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+      <span class="marquee-item marquee-blend outline" style="font-size: clamp(48px, 10vw, 160px);">Motion</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+      <span class="marquee-item marquee-blend" style="font-size: clamp(48px, 10vw, 160px);">Easing</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+      <!-- Duplicate -->
+      <span class="marquee-item marquee-blend outline" style="font-size: clamp(48px, 10vw, 160px);">Animations</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+      <span class="marquee-item marquee-blend" style="font-size: clamp(48px, 10vw, 160px);">Transitions</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+      <span class="marquee-item marquee-blend outline" style="font-size: clamp(48px, 10vw, 160px);">Motion</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+      <span class="marquee-item marquee-blend" style="font-size: clamp(48px, 10vw, 160px);">Easing</span>
+      <span class="marquee-separator" style="color: var(--white-20);">&bull;</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     6. ANIMATIONS
+     =================================================================== -->
+<section class="section section-light" id="animations">
+  <div class="bg-orbs">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="bg-grid"></div>
+  <div class="container relative" style="z-index:1;">
+
+    <div class="section-header reveal">
+      <p class="section-label">06 &mdash; Animations</p>
+      <h2 class="section-title">Motion<br>Library</h2>
+    </div>
+
+    <!-- Entrance animations -->
+    <div class="subsection-title reveal"><span class="dot"></span> Entrance Animations (scroll-triggered)</div>
+    <div class="demo-grid-3" style="margin-bottom: var(--space-3xl);">
+      <div>
+        <p class="t-label" style="margin-bottom: 12px;">Fade In Up</p>
+        <div class="anim-container">
+          <div class="anim-box reveal" style="transition-delay: 0s;">fadeInUp</div>
+        </div>
+      </div>
+      <div>
+        <p class="t-label" style="margin-bottom: 12px;">Scale In</p>
+        <div class="anim-container">
+          <div class="anim-box reveal-scale">scaleIn</div>
+        </div>
+      </div>
+      <div>
+        <p class="t-label" style="margin-bottom: 12px;">Blur In</p>
+        <div class="anim-container">
+          <div class="anim-box reveal-blur">blurIn</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stagger -->
+    <div class="subsection-title reveal"><span class="dot"></span> Staggered Entrance</div>
+    <div class="anim-container reveal" style="margin-bottom: var(--space-3xl); padding: 40px;">
+      <div class="stagger-in" style="display: flex; gap: 12px;" id="staggerDemo">
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">1</div>
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">2</div>
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">3</div>
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">4</div>
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">5</div>
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">6</div>
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">7</div>
+        <div class="anim-box" style="width: 50px; height: 50px; border-radius: 8px;">8</div>
+      </div>
+    </div>
+
+    <!-- Continuous animations -->
+    <div class="subsection-title reveal"><span class="dot"></span> Continuous Animations</div>
+    <div class="demo-grid-3 reveal" style="margin-bottom: var(--space-3xl);">
+      <div>
+        <p class="t-label" style="margin-bottom: 12px;">Float</p>
+        <div class="anim-container">
+          <div class="anim-box" style="animation: floatGentle 3s ease-in-out infinite;">float</div>
+        </div>
+      </div>
+      <div>
+        <p class="t-label" style="margin-bottom: 12px;">Spin</p>
+        <div class="anim-container">
+          <div class="anim-box" style="animation: spin 3s linear infinite; border-radius: 50%;">spin</div>
+        </div>
+      </div>
+      <div>
+        <p class="t-label" style="margin-bottom: 12px;">Pulse Glow</p>
+        <div class="anim-container anim-dark">
+          <div class="anim-box" style="animation: pulseGlow 3s ease-in-out infinite; background: var(--color-white); color: var(--color-black);">glow</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Easing curves -->
+    <div class="subsection-title reveal"><span class="dot"></span> Easing Curves</div>
+    <div class="reveal" style="margin-bottom: var(--space-3xl);">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        <div style="padding: 20px; border: 1px solid var(--black-10); border-radius: var(--radius-xl);">
+          <p class="t-mono" style="font-size: 12px; margin-bottom: 8px;">--ease-out</p>
+          <p class="t-helper">cubic-bezier(0.44, 0, 0.34, 0.98)</p>
+          <p class="t-caption" style="margin-top: 8px;">Content reveals, general transitions</p>
+          <div style="margin-top: 12px; height: 4px; background: var(--black-10); border-radius: 2px; overflow: hidden;">
+            <div class="ease-demo-bar" style="height: 100%; width: 0; background: var(--color-black); border-radius: 2px; transition: width 1s cubic-bezier(0.44, 0, 0.34, 0.98);"></div>
+          </div>
+        </div>
+        <div style="padding: 20px; border: 1px solid var(--black-10); border-radius: var(--radius-xl);">
+          <p class="t-mono" style="font-size: 12px; margin-bottom: 8px;">--ease-smooth</p>
+          <p class="t-helper">cubic-bezier(0.44, 0, 0.56, 1)</p>
+          <p class="t-caption" style="margin-top: 8px;">Scale animations, backgrounds</p>
+          <div style="margin-top: 12px; height: 4px; background: var(--black-10); border-radius: 2px; overflow: hidden;">
+            <div class="ease-demo-bar" style="height: 100%; width: 0; background: var(--color-black); border-radius: 2px; transition: width 1s cubic-bezier(0.44, 0, 0.56, 1);"></div>
+          </div>
+        </div>
+        <div style="padding: 20px; border: 1px solid var(--black-10); border-radius: var(--radius-xl);">
+          <p class="t-mono" style="font-size: 12px; margin-bottom: 8px;">--ease-bounce</p>
+          <p class="t-helper">cubic-bezier(0.76, 0.02, 0.13, 1.01)</p>
+          <p class="t-caption" style="margin-top: 8px;">Bold entrances, attention elements</p>
+          <div style="margin-top: 12px; height: 4px; background: var(--black-10); border-radius: 2px; overflow: hidden;">
+            <div class="ease-demo-bar" style="height: 100%; width: 0; background: var(--color-black); border-radius: 2px; transition: width 1s cubic-bezier(0.76, 0.02, 0.13, 1.01);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hover effects -->
+    <div class="subsection-title reveal"><span class="dot"></span> Hover Effects</div>
+    <div class="demo-row reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="anim-container" style="flex: 1; cursor: pointer; transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);"
+           onmouseenter="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 60px rgba(0,0,0,0.15)'"
+           onmouseleave="this.style.transform=''; this.style.boxShadow=''">
+        <span class="t-mono" style="font-size: 12px;">Lift</span>
+      </div>
+      <div class="anim-container" style="flex: 1; cursor: pointer; transition: transform 0.3s var(--ease-out);"
+           onmouseenter="this.style.transform='scale(1.05)'"
+           onmouseleave="this.style.transform=''">
+        <span class="t-mono" style="font-size: 12px;">Scale</span>
+      </div>
+      <div class="anim-container anim-dark" style="flex: 1; cursor: pointer; transition: all 0.3s var(--ease-out);"
+           onmouseenter="this.style.boxShadow='0 0 30px rgba(255,255,255,0.2), 0 0 60px rgba(255,255,255,0.05)'"
+           onmouseleave="this.style.boxShadow=''">
+        <span class="t-mono" style="font-size: 12px; color: var(--color-white);">Glow</span>
+      </div>
+      <div class="anim-container" style="flex: 1; cursor: pointer; transition: border-radius 0.5s var(--ease-out);"
+           onmouseenter="this.style.borderRadius='50%'"
+           onmouseleave="this.style.borderRadius=''">
+        <span class="t-mono" style="font-size: 12px;">Morph</span>
+      </div>
+    </div>
+
+    <!-- Stats with counter animation -->
+    <div class="subsection-title reveal"><span class="dot"></span> Counter Animation</div>
+    <div class="demo-grid reveal" style="margin-bottom: var(--space-3xl);">
+      <div style="text-align: center; padding: 40px 20px; border: 1px solid var(--black-10); border-radius: var(--radius-xl);">
+        <p class="stat-number counter" data-target="6410000" data-suffix="">0</p>
+        <p class="stat-label">Impressions</p>
+      </div>
+      <div style="text-align: center; padding: 40px 20px; border: 1px solid var(--black-10); border-radius: var(--radius-xl);">
+        <p class="stat-number counter" data-target="1000" data-suffix="+">0</p>
+        <p class="stat-label">Projects</p>
+      </div>
+      <div style="text-align: center; padding: 40px 20px; border: 1px solid var(--black-10); border-radius: var(--radius-xl);">
+        <p class="stat-number counter" data-target="220" data-suffix="+">0</p>
+        <p class="stat-label">Clients</p>
+      </div>
+    </div>
+
+    <!-- Falling Carousel (valfx front-drop) -->
+    <div class="subsection-title reveal"><span class="dot"></span> Falling Carousel</div>
+    <div class="reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="carousel-fall" id="carouselFall">
+        <div class="carousel-fall-track" id="carouselFallTrack">
+          <div class="carousel-fall-tabs">
+            <span class="carousel-fall-tab active"></span>
+            <span class="carousel-fall-tab"></span>
+            <span class="carousel-fall-tab"></span>
+            <span class="carousel-fall-tab"></span>
+            <span class="carousel-fall-tab"></span>
+            <span class="carousel-fall-tab"></span>
+          </div>
+          <div class="carousel-fall-card" data-depth="0">
+            <img src="https://images.unsplash.com/photo-1614632537423-5e1981b303b2?w=500&q=80" alt="Sports Design 1">
+          </div>
+          <div class="carousel-fall-card" data-depth="1">
+            <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=500&q=80" alt="Sports Design 2">
+          </div>
+          <div class="carousel-fall-card" data-depth="2">
+            <img src="https://images.unsplash.com/photo-1461896836934-bd45ba48e2cc?w=500&q=80" alt="Sports Design 3">
+          </div>
+          <div class="carousel-fall-card" data-depth="3">
+            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&q=80" alt="Sports Design 4">
+          </div>
+          <div class="carousel-fall-card" data-depth="hidden">
+            <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" alt="Sports Design 5">
+          </div>
+          <div class="carousel-fall-card" data-depth="hidden">
+            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&q=80" alt="Sports Design 6">
+          </div>
+        </div>
+      </div>
+      <div class="carousel-fall-controls">
+        <button class="btn btn-icon btn-ghost btn-sm" onclick="fallCarouselDrop()">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3v12M5 11l4 4 4-4"/></svg>
+        </button>
+        <span class="carousel-fall-counter" id="fallCounter">01 / 06</span>
+        <button class="btn btn-icon btn-ghost btn-sm" onclick="fallCarouselDrop()">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 7l4-4 4 4M5 11l4 4 4-4"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3D Carousel -->
+    <div class="subsection-title reveal"><span class="dot"></span> 3D Carousel</div>
+    <div class="reveal" style="margin-bottom: var(--space-3xl);">
+      <div class="carousel-3d" id="carousel3d">
+        <div class="carousel-3d-track" id="carousel3dTrack">
+          <div class="carousel-3d-card" style="background: var(--color-gray-50);">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&q=80" alt="Card 1">
+          </div>
+          <div class="carousel-3d-card" style="background: var(--color-gray-50);">
+            <img src="https://images.unsplash.com/photo-1634017839464-5c339bbe3579?w=400&q=80" alt="Card 2">
+          </div>
+          <div class="carousel-3d-card" style="background: var(--color-gray-50);">
+            <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=400&q=80" alt="Card 3">
+          </div>
+          <div class="carousel-3d-card" style="background: var(--color-gray-50);">
+            <img src="https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=400&q=80" alt="Card 4">
+          </div>
+          <div class="carousel-3d-card" style="background: var(--color-gray-50);">
+            <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400&q=80" alt="Card 5">
+          </div>
+          <div class="carousel-3d-card" style="background: var(--color-gray-50);">
+            <img src="https://images.unsplash.com/photo-1614851099511-773084f6911d?w=400&q=80" alt="Card 6">
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 20px;">
+        <button class="btn btn-icon btn-ghost btn-sm" onclick="rotateCarousel(-1)">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4l-4 4 4 4"/></svg>
+        </button>
+        <button class="btn btn-icon btn-ghost btn-sm" onclick="rotateCarousel(1)">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     FOOTER CTA
+     =================================================================== -->
+<section class="section section-dark" style="padding: var(--space-4xl) 0; text-align: center;">
+  <div class="bg-orbs bg-orbs-dark">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="container relative" style="z-index:1;">
+    <div class="reveal">
+      <p class="section-label" style="justify-content: center;">Design System</p>
+      <h2 class="t-h1 text-transparent-stroke" style="font-size: clamp(48px, 10vw, 120px); margin-bottom: var(--space-lg);">Let's Build</h2>
+      <p class="t-body-lg text-ghost" style="max-width: 500px; margin: 0 auto var(--space-xl);">A complete design foundation for crafting elegant black & white interfaces.</p>
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <a href="#hero" class="btn btn-inverted btn-lg">Back to Top</a>
+        <a href="#" class="btn btn-glass">View Source</a>
+      </div>
+    </div>
+    <hr class="gradient-divider gradient-divider-light" style="margin-top: var(--space-3xl);">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-lg);" class="reveal">
+      <p class="t-caption" style="color: var(--white-30);">&copy; 2026 Design System</p>
+      <p class="t-caption" style="color: var(--white-30);">Black &amp; White</p>
+    </div>
+  </div>
+</section>
+
+
+</div><!-- end diagonal-reveal-inner -->
+</div><!-- end diagonal-reveal -->
+
+<!-- ===================================================================
+     MODAL (hidden)
+     =================================================================== -->
+<div class="modal-overlay" id="demoModal" onclick="if(event.target===this) this.classList.remove('active')">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('demoModal').classList.remove('active')">&times;</button>
+    <h3 class="modal-title">Modal Component</h3>
+    <p class="modal-body">This is a demonstration of the modal component with backdrop blur, scale entrance animation, and proper focus management patterns.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('demoModal').classList.remove('active')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('demoModal').classList.remove('active')">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================================
+     JAVASCRIPT
+     =================================================================== -->
+<script>
+(function() {
+  'use strict';
+
+  // ============================================
+  // Intersection Observer - Scroll Reveal
+  // ============================================
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        // Don't unobserve so elements can re-animate if needed
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  document.querySelectorAll('.reveal, .reveal-scale, .reveal-blur, .stagger-in').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // ============================================
+  // Hero Particles
+  // ============================================
+  const canvas = document.getElementById('heroParticles');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animFrame;
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.4 + 0.1;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    // Create particles
+    const particleCount = Math.min(80, Math.floor(canvas.width * canvas.height / 15000));
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function drawConnections() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.06 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      drawConnections();
+      animFrame = requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  }
+
+  // ============================================
+  // Hero Cursor Glow
+  // ============================================
+  const heroSection = document.getElementById('hero');
+  const heroGlow = document.getElementById('heroGlow');
+  if (heroSection && heroGlow) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = e.clientX - rect.left - 250;
+      const y = e.clientY - rect.top - 250;
+      heroGlow.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  }
+
+  // ============================================
+  // Falling Carousel
+  // ============================================
+  const fallTrack = document.getElementById('carouselFallTrack');
+  const fallCards = fallTrack ? Array.from(fallTrack.querySelectorAll('.carousel-fall-card')) : [];
+  const fallTabs = fallTrack ? Array.from(fallTrack.querySelectorAll('.carousel-fall-tab')) : [];
+  const fallCounter = document.getElementById('fallCounter');
+  let fallIndex = 0;
+  let fallAnimating = false;
+  const fallTotal = fallCards.length;
+
+  function updateFallDepths() {
+    fallCards.forEach((card, i) => {
+      // Calculate position relative to current front card
+      const relPos = (i - fallIndex + fallTotal) % fallTotal;
+      card.classList.remove('is-dropping');
+      if (relPos === 0) {
+        card.dataset.depth = '0';
+      } else if (relPos === 1) {
+        card.dataset.depth = '1';
+      } else if (relPos === 2) {
+        card.dataset.depth = '2';
+      } else if (relPos === 3) {
+        card.dataset.depth = '3';
+      } else {
+        card.dataset.depth = 'hidden';
+      }
+    });
+    // Update tabs
+    fallTabs.forEach((tab, i) => {
+      tab.classList.toggle('active', i === fallIndex);
+    });
+    // Update counter
+    if (fallCounter) {
+      fallCounter.textContent = String(fallIndex + 1).padStart(2, '0') + ' / ' + String(fallTotal).padStart(2, '0');
+    }
+  }
+
+  window.fallCarouselDrop = function() {
+    if (fallAnimating || fallCards.length === 0) return;
+    fallAnimating = true;
+
+    // The front card drops
+    const frontCard = fallCards.find((c) => c.dataset.depth === '0');
+    if (frontCard) {
+      frontCard.classList.add('is-dropping');
+    }
+
+    // After drop animation, rearrange
+    setTimeout(() => {
+      fallIndex = (fallIndex + 1) % fallTotal;
+      updateFallDepths();
+      fallAnimating = false;
+    }, 650);
+  };
+
+  // Auto-play falling carousel (continuous, no pause)
+  setInterval(() => {
+    fallCarouselDrop();
+  }, 2000);
+
+  // ============================================
+  // 3D Carousel
+  // ============================================
+  let carouselAngle = 0;
+  const track = document.getElementById('carousel3dTrack');
+  const cards = track ? track.querySelectorAll('.carousel-3d-card') : [];
+  const cardCount = cards.length;
+  const angleStep = 360 / cardCount;
+  const radius = 350;
+
+  function positionCards() {
+    cards.forEach((card, i) => {
+      const angle = (angleStep * i + carouselAngle) * (Math.PI / 180);
+      const x = Math.sin(angle) * radius;
+      const z = Math.cos(angle) * radius - radius;
+      const scale = (z + radius * 2) / (radius * 3) * 0.4 + 0.6;
+      const opacity = (z + radius) / (radius * 2) * 0.7 + 0.3;
+      card.style.transform = `translateX(${x}px) translateZ(${z}px) scale(${scale})`;
+      card.style.opacity = opacity;
+      card.style.zIndex = Math.round(z + radius);
+    });
+  }
+  if (track) positionCards();
+
+  window.rotateCarousel = function(dir) {
+    carouselAngle += dir * angleStep;
+    positionCards();
+  };
+
+  // Drag to rotate
+  let isDragging = false;
+  let startX = 0;
+  const carousel = document.getElementById('carousel3d');
+  if (carousel) {
+    carousel.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX; });
+    carousel.addEventListener('touchstart', (e) => { isDragging = true; startX = e.touches[0].clientX; });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 30) {
+        rotateCarousel(dx > 0 ? -1 : 1);
+        startX = e.clientX;
+      }
+    });
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const dx = e.touches[0].clientX - startX;
+      if (Math.abs(dx) > 30) {
+        rotateCarousel(dx > 0 ? -1 : 1);
+        startX = e.touches[0].clientX;
+      }
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; });
+    window.addEventListener('touchend', () => { isDragging = false; });
+  }
+
+  // ============================================
+  // Counter Animation
+  // ============================================
+  const counters = document.querySelectorAll('.counter');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = 'true';
+        const target = parseInt(entry.target.dataset.target);
+        const suffix = entry.target.dataset.suffix || '';
+        const duration = 2000;
+        const start = performance.now();
+
+        function updateCounter(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+
+          // Format number
+          let formatted;
+          if (target >= 1000000) {
+            formatted = (current / 1000000).toFixed(2) + 'M';
+          } else if (target >= 10000) {
+            formatted = (current / 1000).toFixed(1) + 'K';
+          } else {
+            formatted = current.toLocaleString();
+          }
+          entry.target.textContent = formatted + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          }
+        }
+        requestAnimationFrame(updateCounter);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(c => counterObserver.observe(c));
+
+  // ============================================
+  // Easing curve demos
+  // ============================================
+  const easeBars = document.querySelectorAll('.ease-demo-bar');
+  const easeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.width = '100%';
+        }, 200);
+      } else {
+        entry.target.style.width = '0';
+      }
+    });
+  }, { threshold: 0.3 });
+  easeBars.forEach(bar => easeObserver.observe(bar));
+
+  // ============================================
+  // Magnetic button effect
+  // ============================================
+  document.querySelectorAll('.btn-magnetic').forEach(wrapper => {
+    const btn = wrapper.querySelector('.btn') || wrapper;
+    wrapper.addEventListener('mousemove', (e) => {
+      const rect = wrapper.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.2;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.2;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    wrapper.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  // ============================================
+  // Diagonal Hero Reveal on Scroll
+  // ============================================
+  const diagonalEl = document.getElementById('diagonalReveal');
+  const heroWrapper = document.querySelector('.hero-sticky-wrapper');
+
+  if (diagonalEl && heroWrapper) {
+    function updateDiagonalClip() {
+      const scrollY = window.scrollY;
+      const heroH = window.innerHeight;
+      // The diagonal effect happens during the extra scroll (100vh-200vh)
+      // progress: 0 = top, 1 = fully scrolled past hero wrapper
+      const start = heroH * 0.1; // start earlier
+      const end = heroH * 1.0;
+      const progress = Math.max(0, Math.min(1, (scrollY - start) / (end - start)));
+
+      // Left side rises more (max ~14%), right side stays near 0%
+      // As user scrolls, the diagonal flattens out to 0% 0%
+      const leftClip = (1 - progress) * 14;  // 14% → 0%
+      const rightClip = (1 - progress) * 0.5; // 0.5% → 0% (very slight)
+
+      diagonalEl.style.clipPath = `polygon(0 ${leftClip}%, 100% ${rightClip}%, 100% 100%, 0% 100%)`;
+    }
+
+    window.addEventListener('scroll', updateDiagonalClip, { passive: true });
+    updateDiagonalClip(); // initial
+  }
+
+  // ============================================
+  // Smooth scroll for anchor links
+  // ============================================
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
