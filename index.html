@@ -1123,7 +1123,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 <!-- ===================================================================
      JAVASCRIPT
      =================================================================== -->
-<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 <script>
 (function() {
   'use strict';
@@ -1338,17 +1337,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     if (e.key === 'ArrowRight') navigateLightbox(1);
   });
 
-  // Smooth scroll with Lenis
-  const lenis = new Lenis({ duration: 0.3, smoothWheel: true, wheelMultiplier: 2 });
-  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
-
-  // Anchor links
+  // Anchor smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const t = document.querySelector(link.getAttribute('href'));
-      if (t) lenis.scrollTo(t);
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
