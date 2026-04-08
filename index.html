@@ -774,10 +774,52 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .carousel-fall-track { width: 280px; height: 370px; }
   .carousel-fall { height: 440px; }
 }
+
+/* ============================================
+   LOADER
+   ============================================ */
+.loader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--color-dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.loader.hide {
+  opacity: 0; visibility: hidden;
+}
+.loader-logo {
+  font-family: var(--font-primary); font-weight: 800; font-size: 32px;
+  color: var(--color-white); letter-spacing: -1px; margin-bottom: 40px;
+  opacity: 0; animation: fadeIn 0.6s ease 0.2s forwards;
+}
+.loader-bar-track {
+  width: 200px; height: 2px; background: var(--white-10); border-radius: 2px; overflow: hidden;
+  opacity: 0; animation: fadeIn 0.4s ease 0.4s forwards;
+}
+.loader-bar {
+  height: 100%; width: 0; background: var(--color-white); border-radius: 2px;
+  animation: loaderFill 4.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+@keyframes loaderFill {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+.loader-percent {
+  font-family: var(--font-mono); font-size: 12px; color: var(--white-30);
+  letter-spacing: 2px; margin-top: 16px;
+  opacity: 0; animation: fadeIn 0.4s ease 0.4s forwards;
+}
 </style>
 </head>
 
 <body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <p class="loader-logo">VB DESIGNER</p>
+  <div class="loader-bar-track"><div class="loader-bar" id="loaderBar"></div></div>
+  <p class="loader-percent" id="loaderPercent">0%</p>
+</div>
 
 <!-- ===================================================================
      HERO
@@ -1328,6 +1370,27 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 <script>
 (function() {
   'use strict';
+
+  // Loader - 5 seconds
+  const loader = document.getElementById('loader');
+  const loaderPercent = document.getElementById('loaderPercent');
+  const loaderDuration = 5000;
+  const loaderStart = performance.now();
+  document.body.style.overflow = 'hidden';
+
+  function updateLoader(now) {
+    const elapsed = now - loaderStart;
+    const progress = Math.min(elapsed / loaderDuration, 1);
+    const pct = Math.floor(progress * 100);
+    loaderPercent.textContent = pct + '%';
+    if (progress < 1) {
+      requestAnimationFrame(updateLoader);
+    } else {
+      loader.classList.add('hide');
+      document.body.style.overflow = '';
+    }
+  }
+  requestAnimationFrame(updateLoader);
 
   // Scroll Reveal
   const revealObserver = new IntersectionObserver((entries) => {
