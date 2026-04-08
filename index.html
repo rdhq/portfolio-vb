@@ -581,6 +581,132 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ============================================
+   MOTIONS SECTION
+   ============================================ */
+.motions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.motion-card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 9/16;
+  background: var(--color-dark-card);
+}
+.motion-card video {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s var(--ease-out);
+}
+.motion-card:hover video { transform: scale(1.05); }
+
+/* Play icon overlay */
+.motion-card .motion-play {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.3);
+  transition: background 0.3s ease, opacity 0.3s ease;
+  z-index: 2;
+}
+.motion-card:hover .motion-play { background: rgba(0,0,0,0.1); }
+.motion-card .motion-play .play-btn {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--white-20); border: 2px solid var(--white-50);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s var(--ease-out);
+}
+.motion-card:hover .motion-play .play-btn {
+  transform: scale(1.15);
+  background: var(--white-30);
+  border-color: var(--color-white);
+  box-shadow: 0 0 40px rgba(255,255,255,0.15);
+}
+.motion-card.is-playing .motion-play { opacity: 0; pointer-events: none; }
+
+/* Motion card info */
+.motion-card .motion-info {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+  padding: 16px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.8));
+  transform: translateY(100%);
+  transition: transform 0.4s var(--ease-out);
+}
+.motion-card:hover .motion-info { transform: translateY(0); }
+.motion-card .motion-info .motion-title {
+  font-family: var(--font-primary); font-weight: 700; font-size: 14px;
+  color: var(--color-white); letter-spacing: -0.3px;
+}
+.motion-card .motion-info .motion-tag {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 2px; color: var(--white-50);
+  margin-top: 4px;
+}
+
+/* Featured motion (larger) */
+.motion-card.featured {
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: auto;
+}
+.motion-card.featured .motion-play .play-btn {
+  width: 80px; height: 80px;
+}
+
+/* Video theater (fullscreen player) */
+.video-theater {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.95);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s var(--ease-out);
+}
+.video-theater.active { opacity: 1; pointer-events: auto; }
+.video-theater video {
+  max-width: 85vw; max-height: 80vh;
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+  transform: scale(0.9);
+  transition: transform 0.4s var(--ease-out);
+}
+.video-theater.active video { transform: scale(1); }
+.video-theater .theater-close {
+  position: absolute; top: 24px; right: 24px; width: 48px; height: 48px;
+  border-radius: 50%; background: var(--white-10); border: 1px solid var(--white-16);
+  color: var(--color-white); font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s ease; backdrop-filter: blur(12px);
+}
+.video-theater .theater-close:hover { background: var(--white-20); transform: scale(1.1); }
+.video-theater .theater-title {
+  font-family: var(--font-primary); font-weight: 700; font-size: 18px;
+  color: var(--color-white); margin-top: 20px; letter-spacing: -0.5px;
+}
+.video-theater .theater-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--white-10); border: 1px solid var(--white-16);
+  color: var(--color-white); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s ease; backdrop-filter: blur(12px);
+}
+.video-theater .theater-nav:hover { background: var(--white-20); }
+.video-theater .theater-nav.prev { left: 24px; }
+.video-theater .theater-nav.next { right: 24px; }
+
+@media (max-width: 1199px) {
+  .motions-grid { grid-template-columns: repeat(2, 1fr); }
+  .motion-card.featured { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; }
+}
+@media (max-width: 809px) {
+  .motions-grid { grid-template-columns: repeat(2, 1fr); }
+  .motion-card.featured { grid-column: span 2; }
+  .motion-card .motion-play .play-btn { width: 48px; height: 48px; }
+}
+
+/* ============================================
    ABOUT SPLIT
    ============================================ */
 .about-split {
@@ -685,8 +811,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     <div class="hero-nav-links">
       <a href="#portfolio"><span class="nav-index">01</span> Portfolio</a>
       <a href="#about"><span class="nav-index">02</span> Sobre</a>
-      <a href="#services"><span class="nav-index">03</span> Servi&ccedil;os</a>
-      <a href="#contact"><span class="nav-index">04</span> Contato</a>
+      <a href="#motions"><span class="nav-index">03</span> Motions</a>
+      <a href="#services"><span class="nav-index">04</span> Servi&ccedil;os</a>
+      <a href="#contact"><span class="nav-index">05</span> Contato</a>
     </div>
   </nav>
 
@@ -853,6 +980,78 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         <p class="stat-label">Alcance nas redes</p>
       </div>
     </div>
+  </div>
+</section>
+
+
+<!-- ===================================================================
+     MOTIONS
+     =================================================================== -->
+<section class="section section-dark" id="motions" style="padding-bottom: var(--space-2xl);">
+  <div class="bg-orbs bg-orbs-dark"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+  <div class="bg-grid bg-grid-dark"></div>
+  <div class="bg-noise"></div>
+  <div class="container" style="position: relative; z-index: 1;">
+
+    <div class="reveal" style="margin-bottom: var(--space-xl);">
+      <p class="section-label">03 &mdash; Motions</p>
+      <h2 class="section-title" style="color: var(--color-white);">O jogo<br>em movimento</h2>
+      <p style="font-size: 16px; color: var(--white-50); max-width: 480px; margin-top: 20px; line-height: 1.7;">Motion design que traz a intensidade do esporte para a tela. Cada segundo pensado para prender a aten&ccedil;&atilde;o.</p>
+    </div>
+
+    <div class="motions-grid stagger-in">
+      <div class="motion-card featured" data-video="assets/videos/web/john-x-malmo.mp4" data-title="John x Malmo">
+        <video src="assets/videos/web/john-x-malmo.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="24" height="24" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">John x Malmo</p><p class="motion-tag">Motion Design</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/breno-domingo.mp4" data-title="Breno Domingo">
+        <video src="assets/videos/web/breno-domingo.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">Breno | Domingo</p><p class="motion-tag">Match Day</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/sabino-domingo.mp4" data-title="Sabino Domingo">
+        <video src="assets/videos/web/sabino-domingo.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">Sabino | Domingo</p><p class="motion-tag">Match Day</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/john-x-chelsea.mp4" data-title="John x Chelsea">
+        <video src="assets/videos/web/john-x-chelsea.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">John x Chelsea</p><p class="motion-tag">Match Day</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/wagner-leonardo-domingo.mp4" data-title="Wagner Leonardo">
+        <video src="assets/videos/web/wagner-leonardo-domingo.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">Wagner Leonardo</p><p class="motion-tag">Match Day</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/andre-henrique-x-corinthians.mp4" data-title="Andr&eacute; Henrique x Corinthians">
+        <video src="assets/videos/web/andre-henrique-x-corinthians.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">Andr&eacute; Henrique x Corinthians</p><p class="motion-tag">Motion Design</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/john-x-porto.mp4" data-title="John x Porto">
+        <video src="assets/videos/web/john-x-porto.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">John x Porto</p><p class="motion-tag">Match Day</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/john-x-leeds.mp4" data-title="John x Leeds">
+        <video src="assets/videos/web/john-x-leeds.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">John x Leeds</p><p class="motion-tag">Match Day</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/john-x-senegal.mp4" data-title="John x Senegal">
+        <video src="assets/videos/web/john-x-senegal.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">John x Senegal</p><p class="motion-tag">Match Day</p></div>
+      </div>
+      <div class="motion-card" data-video="assets/videos/web/wagner-leonardo-quarta.mp4" data-title="Wagner Leonardo | Quarta">
+        <video src="assets/videos/web/wagner-leonardo-quarta.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="motion-play"><div class="play-btn"><svg width="20" height="20" fill="white" viewBox="0 0 24 24"><polygon points="8,5 20,12 8,19"/></svg></div></div>
+        <div class="motion-info"><p class="motion-title">Wagner Leonardo | Quarta</p><p class="motion-tag">Motion Design</p></div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1106,6 +1305,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 </div><!-- end diagonal-reveal-inner -->
 </div><!-- end diagonal-reveal -->
 
+<!-- Video Theater -->
+<div class="video-theater" id="videoTheater" onclick="if(event.target===this)closeTheater()">
+  <button class="theater-close" onclick="closeTheater()">&times;</button>
+  <button class="theater-nav prev" onclick="event.stopPropagation();navigateTheater(-1)">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4l-6 6 6 6"/></svg>
+  </button>
+  <video id="theaterVideo" controls autoplay loop></video>
+  <button class="theater-nav next" onclick="event.stopPropagation();navigateTheater(1)">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 4l6 6-6 6"/></svg>
+  </button>
+  <p class="theater-title" id="theaterTitle"></p>
+</div>
+
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
@@ -1335,6 +1547,57 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') navigateLightbox(-1);
     if (e.key === 'ArrowRight') navigateLightbox(1);
+  });
+
+  // Motion cards - hover to play
+  document.querySelectorAll('.motion-card').forEach(card => {
+    const video = card.querySelector('video');
+    card.addEventListener('mouseenter', () => {
+      video.play().catch(() => {});
+      card.classList.add('is-playing');
+    });
+    card.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0;
+      card.classList.remove('is-playing');
+    });
+    // Click to open theater
+    card.addEventListener('click', () => {
+      openTheater(card.dataset.video, card.dataset.title);
+    });
+  });
+
+  // Video Theater
+  const theater = document.getElementById('videoTheater');
+  const theaterVideo = document.getElementById('theaterVideo');
+  const theaterTitle = document.getElementById('theaterTitle');
+  const motionCards = Array.from(document.querySelectorAll('.motion-card'));
+  let theaterIndex = 0;
+
+  function openTheater(src, title) {
+    theaterIndex = motionCards.findIndex(c => c.dataset.video === src);
+    theaterVideo.src = src;
+    theaterTitle.textContent = title;
+    theater.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  window.closeTheater = function() {
+    theater.classList.remove('active');
+    theaterVideo.pause();
+    theaterVideo.src = '';
+    document.body.style.overflow = '';
+  };
+  window.navigateTheater = function(dir) {
+    theaterIndex = (theaterIndex + dir + motionCards.length) % motionCards.length;
+    const card = motionCards[theaterIndex];
+    theaterVideo.src = card.dataset.video;
+    theaterTitle.textContent = card.dataset.title;
+  };
+  document.addEventListener('keydown', (e) => {
+    if (!theater.classList.contains('active')) return;
+    if (e.key === 'Escape') closeTheater();
+    if (e.key === 'ArrowLeft') navigateTheater(-1);
+    if (e.key === 'ArrowRight') navigateTheater(1);
   });
 
   // Anchor smooth scroll (nativo)
