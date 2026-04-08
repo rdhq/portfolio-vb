@@ -1339,7 +1339,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   });
 
   // Smooth scroll with Lenis
-  const lenis = new Lenis({ duration: 0.6, easing: (t) => 1 - Math.pow(1 - t, 3), smoothWheel: true, wheelMultiplier: 1.2 });
+  const lenis = new Lenis({ duration: 0.3, smoothWheel: true, wheelMultiplier: 2 });
   function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
 
