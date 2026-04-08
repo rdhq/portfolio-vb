@@ -1351,7 +1351,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }, { passive: false });
 
   function smoothRaf() {
-    smoothY = lerp(smoothY, targetY, 0.12);
+    smoothY = lerp(smoothY, targetY, 0.08);
     if (Math.abs(smoothY - targetY) < 0.5) { smoothY = targetY; scrolling = false; }
     window.scrollTo(0, smoothY);
     if (scrolling) requestAnimationFrame(smoothRaf);
