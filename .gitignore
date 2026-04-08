@@ -1,2 +1,15 @@
-*.mp4
+# Videos (large files)
+assets/videos/
+
+# Windows zone identifiers
 *:Zone.Identifier
+
+# Reference templates (not needed in production)
+references/
+
+# Raw unprocessed files
+assets/raw-files/
+
+# OS files
+.DS_Store
+Thumbs.db
