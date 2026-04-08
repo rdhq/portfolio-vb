@@ -1337,43 +1337,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     if (e.key === 'ArrowRight') navigateLightbox(1);
   });
 
-  // Smooth scroll - lightweight custom (scroll magic style)
-  let smoothY = window.scrollY;
-  let targetY = window.scrollY;
-  let scrolling = false;
-  const lerp = (a, b, n) => a + (b - a) * n;
-
-  window.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    targetY += e.deltaY * 0.8;
-    targetY = Math.max(0, Math.min(targetY, document.body.scrollHeight - window.innerHeight));
-    if (!scrolling) { scrolling = true; smoothRaf(); }
-  }, { passive: false });
-
-  function smoothRaf() {
-    smoothY = lerp(smoothY, targetY, 0.08);
-    if (Math.abs(smoothY - targetY) < 0.5) { smoothY = targetY; scrolling = false; }
-    window.scrollTo(0, smoothY);
-    if (scrolling) requestAnimationFrame(smoothRaf);
-  }
-
-  // Sync on native scroll (touch, scrollbar drag)
-  let isTouching = false;
-  window.addEventListener('touchstart', () => isTouching = true);
-  window.addEventListener('touchend', () => { isTouching = false; targetY = window.scrollY; smoothY = window.scrollY; });
-  window.addEventListener('scroll', () => {
-    if (isTouching || !scrolling) { smoothY = window.scrollY; targetY = window.scrollY; }
-  });
-
-  // Anchor links
+  // Anchor smooth scroll (nativo)
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const t = document.querySelector(link.getAttribute('href'));
-      if (t) {
-        targetY = t.getBoundingClientRect().top + window.scrollY;
-        if (!scrolling) { scrolling = true; smoothRaf(); }
-      }
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
